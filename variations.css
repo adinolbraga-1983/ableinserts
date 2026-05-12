@@ -1,0 +1,88 @@
+/* ============================================================
+   Variations — shared component styles
+   All artboards inside the design canvas import this.
+   ============================================================ */
+
+/* Page chrome shared across variations */
+.site {
+  font-family: var(--font-sans);
+  color: var(--fg-1);
+  background: var(--bg-1);
+  position: relative;
+  overflow: hidden;
+  width: 100%; height: 100%;
+}
+.site.invert { background: var(--ink); color: var(--paper); }
+.site.bone   { background: var(--bone); color: var(--fg-1); }
+
+.site .topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 28px 48px;
+  border-bottom: 0.5px solid var(--border-1);
+}
+.invert .topbar { border-bottom-color: rgba(255,255,255,0.12); }
+.site .wordmark {
+  font-family: var(--font-display); font-style: italic; font-size: 22px; letter-spacing: -0.01em;
+}
+.site .nav { display: flex; gap: 32px; align-items: center; }
+.site .nav a {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  border: none; color: inherit; opacity: 0.85;
+}
+.site .lang {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  display: flex; gap: 4px;
+}
+.site .lang .on { font-weight: 600; }
+.site .lang .off { opacity: 0.4; }
+
+/* Buttons reused */
+.v-btn {
+  appearance: none; border: none;
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 14px 22px;
+  background: var(--ink); color: var(--paper);
+  font-family: var(--font-sans); font-size: 14px; font-weight: 500;
+  border-radius: 8px; cursor: pointer;
+}
+.invert .v-btn { background: var(--paper); color: var(--ink); }
+.v-btn .arr { width: 14px; height: 1px; background: currentColor; position: relative; }
+.v-btn .arr::after { content:''; position:absolute; right:0; top:-3px; width:7px; height:7px;
+  border-top:1px solid currentColor; border-right:1px solid currentColor; transform: rotate(45deg); }
+
+.v-btn--ghost { background: transparent; color: inherit; border: 0.5px solid currentColor; }
+
+/* Eyebrow with rule */
+.kicker {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+}
+.kicker::before { content:''; width: 24px; height: 0.5px; background: currentColor; opacity: 0.8; }
+
+/* Helpers */
+.bilingual em {
+  display: block; font-style: italic; font-family: var(--font-display);
+  color: var(--fg-3); font-weight: 400;
+}
+.invert .bilingual em { color: var(--mist); }
+
+.hairline { height: 0.5px; background: var(--border-1); }
+.invert .hairline { background: rgba(255,255,255,0.18); }
+
+.portrait-mask--oval {
+  border-radius: 50% / 42%;
+  overflow: hidden;
+  filter: grayscale(1) contrast(1.02);
+}
+.portrait-mask--circle {
+  border-radius: 50%;
+  overflow: hidden;
+  filter: grayscale(1) contrast(1.02);
+}
+.portrait-mask--square {
+  overflow: hidden;
+  filter: grayscale(1) contrast(1.02);
+}
+.portrait-img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
