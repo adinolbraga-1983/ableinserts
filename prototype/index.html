@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- SEO base (na Fase 4 vira dinâmico via ACF/seo.php) -->
+  <title>Marguerite — Agência de Experiência | Live Marketing e Eventos Corporativos</title>
+  <meta name="description" content="Agência boutique de eventos e marketing de experiência. Há 34 anos criando experiências memoráveis e conexões reais entre marcas e pessoas." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="canonical" href="https://marguerite.com.br/" />
+  <meta name="theme-color" content="#1D010E" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Marguerite" />
+  <meta property="og:title" content="Marguerite — Agência de Experiência" />
+  <meta property="og:description" content="Experiências memoráveis não acontecem. São conduzidas." />
+  <meta property="og:image" content="assets/img/hero-og.jpg" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Preload do LCP (poster) e da fonte crítica -->
+  <link rel="preload" as="image" href="assets/img/hero-poster.jpg" fetchpriority="high" />
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/poppins-400.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/poppins-500.woff2" crossorigin />
+
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+
+  <!-- Three.js só na home, resolvido via importmap (vendorizado, sem CDN) -->
+  <script type="importmap">
+  { "imports": { "three": "./assets/vendor/three.module.min.js" } }
+  </script>
+
+  <!-- JSON-LD: Organization + WebSite (Fase 4 injeta via seo.php) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Organization", "name": "Marguerite", "url": "https://marguerite.com.br/",
+        "description": "Agência boutique de eventos e marketing de experiência.",
+        "areaServed": "BR", "foundingDate": "1991",
+        "address": { "@type": "PostalAddress", "addressLocality": "São Paulo", "addressRegion": "SP", "addressCountry": "BR" } },
+      { "@type": "WebSite", "name": "Marguerite", "url": "https://marguerite.com.br/", "inLanguage": "pt-BR" }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" data-over-dark="true" id="topo">
+    <a class="brand" href="#topo" aria-label="Marguerite — início">
+      <img class="brand__mark" src="assets/img/mark.svg" alt="" aria-hidden="true" width="26" height="26" />
+      <span>
+        <span class="brand__name">marguerite</span>
+        <span class="brand__tag">agência de experiência</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Navegação principal">
+      <a class="nav__link" href="#sobre" data-spy="sobre">Sobre</a>
+      <a class="nav__link" href="#metodologia" data-spy="metodologia">Metodologia</a>
+      <a class="nav__link" href="#cases" data-spy="cases">Cases</a>
+      <a class="nav__link" href="#clientes" data-spy="clientes">Clientes</a>
+    </nav>
+
+    <a class="header__cta link-underline" href="#contato">Agende uma reunião</a>
+
+    <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu"><span></span></button>
+  </header>
+
+  <!-- Menu mobile -->
+  <div class="menu-overlay" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+    <button class="menu-overlay__close" aria-label="Fechar menu">&times;</button>
+    <a href="#sobre">Sobre</a>
+    <a href="#metodologia">Metodologia</a>
+    <a href="#cases">Cases</a>
+    <a href="#clientes">Clientes</a>
+    <a href="#contato" class="marker">Agende uma reunião</a>
+  </div>
+
+  <main id="conteudo">
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="hero" aria-label="Apresentação">
+      <div class="hero__stage" aria-hidden="true">
+        <canvas class="hero__canvas" id="hero-canvas"></canvas>
+        <!-- Fallback (sem WebGL / reduced-motion): vídeo + duotone CSS = lente roxa -->
+        <video class="hero__media" id="hero-video" playsinline muted loop preload="metadata"
+               poster="assets/img/hero-poster.jpg">
+          <source src="assets/video/hero.mp4" type="video/mp4" />
+        </video>
+        <div class="hero__duotone"></div>
+        <div class="hero__tint"></div>
+      </div>
+
+      <div class="hero__content">
+        <h1 class="hero__title" data-hero-title data-marker-draw>
+          <span class="line"><span>Experiências</span></span>
+          <span class="line"><span>memoráveis não</span></span>
+          <span class="line"><span>acontecem.</span></span>
+          <span class="line"><span><em class="marker">São conduzidas.</em></span></span>
+        </h1>
+        <p class="hero__sub" data-reveal>Agência boutique de eventos e marketing de experiência.</p>
+        <div class="hero__meta" data-reveal>
+          <span>Início</span><span aria-hidden="true">·</span><span>Como conduzimos</span>
+        </div>
+      </div>
+
+      <div class="hero__scroll" aria-hidden="true"><span>Role</span><span class="bar"></span></div>
+    </section>
+
+    <!-- ===================== SOBRE / 34 ANOS ===================== -->
+    <section class="sobre" id="sobre" aria-labelledby="sobre-title">
+      <div class="sobre__bg" aria-hidden="true">
+        <img class="sobre__img" data-parallax src="assets/img/sobre-portrait.jpg" alt="" loading="lazy" decoding="async" />
+        <div class="sobre__duotone"></div>
+        <div class="sobre__warm"></div>
+      </div>
+      <div class="container sobre__inner">
+        <div class="sobre__body">
+          <span class="eyebrow" data-reveal>Sobre</span>
+          <h2 class="sobre__title" id="sobre-title" data-reveal>Trinta e quatro anos<br />de mercado moram aqui.</h2>
+          <p class="sobre__text" data-reveal>Uma agência boutique apaixonada por criar experiências sob medida para marcas que não podem errar em público. Da primeira conversa ao desmonte, cada projeto é conduzido pessoalmente — sem repasse, sem tradução perdida no caminho.</p>
+          <ul class="sobre__services" data-reveal>
+            <li>Projetos Corporativos</li>
+            <li>Experiências Imersivas</li>
+            <li>Ativação de Marcas</li>
+          </ul>
+          <a class="sobre__cta link-underline" href="#metodologia" data-reveal>Conheça o método <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== METODOLOGIA ===================== -->
+    <section class="section metodo" id="metodologia" aria-labelledby="metodo-title">
+      <div class="container">
+        <div class="metodo__head">
+          <span class="eyebrow" data-reveal>Metodologia</span>
+          <h2 class="metodo__title" id="metodo-title" data-reveal>O sucesso é alcançado<br />em <span class="anchor">quatro</span> passos</h2>
+        </div>
+        <ol class="metodo__grid">
+          <li class="metodo__item"><span class="index-num">01</span><h3>Atendimento Personalizado</h3></li>
+          <li class="metodo__item"><span class="index-num">02</span><h3>Inovação e Criatividade</h3></li>
+          <li class="metodo__item"><span class="index-num">03</span><h3>Engajamento Memorável</h3></li>
+          <li class="metodo__item"><span class="index-num">04</span><h3>Resultados Analíticos</h3></li>
+        </ol>
+        <p class="metodo__foot" data-reveal>Construímos um fluxo personalizado para cada cliente: sem barreiras, mais conversas, mais construção, resultando em uma parceria sólida e não em apenas mais um fornecedor.</p>
+      </div>
+    </section>
+
+    <!-- ===================== CASES ===================== -->
+    <section class="section cases" id="cases" aria-labelledby="cases-title">
+      <div class="container cases__head">
+        <div>
+          <span class="eyebrow" data-reveal>Cases</span>
+          <h2 class="cases__title" id="cases-title" data-reveal>Projetos conduzidos por nossas executivas</h2>
+        </div>
+        <a class="link-underline" href="#" data-reveal>Ver todos <span class="arrow">→</span></a>
+      </div>
+
+      <div class="cases__track-wrap">
+        <ul class="cases__track" id="cases-track">
+          <li class="case-card">
+            <a class="case-card__media" href="#" aria-label="Abrir case Convenção SKY 2023">
+              <img class="case-card__img" src="assets/img/case-sky.jpg" alt="Palco de convenção corporativa iluminado" loading="lazy" decoding="async" />
+              <span class="case-card__overlay"></span>
+              <span class="case-card__play" aria-hidden="true">▶</span>
+            </a>
+            <div class="case-card__cap">
+              <p class="case-card__name">Convenção SKY 2023</p>
+              <p class="case-card__meta">300 pessoas · Jequitimar · Guarujá</p>
+            </div>
+          </li>
+          <li class="case-card">
+            <a class="case-card__media" href="#" aria-label="Abrir case Tegra Guest">
+              <img class="case-card__img" src="assets/img/case-tegra.jpg" alt="Equipe de produção operando um evento" loading="lazy" decoding="async" />
+              <span class="case-card__overlay"></span>
+              <span class="case-card__play" aria-hidden="true">▶</span>
+            </a>
+            <div class="case-card__cap">
+              <p class="case-card__name">Tegra Guest</p>
+              <p class="case-card__meta">980 pessoas · Iberostar · Salvador</p>
+            </div>
+          </li>
+          <li class="case-card">
+            <a class="case-card__media" href="#" aria-label="Abrir case Convenção SKY 2025">
+              <img class="case-card__img" src="assets/img/case-neon.jpg" alt="Plateia diante de palco com painéis de LED" loading="lazy" decoding="async" />
+              <span class="case-card__overlay"></span>
+              <span class="case-card__play" aria-hidden="true">▶</span>
+            </a>
+            <div class="case-card__cap">
+              <p class="case-card__name">Convenção SKY 2025</p>
+              <p class="case-card__meta">980 pessoas · Iberostar · Salvador</p>
+            </div>
+          </li>
+          <li class="case-card">
+            <a class="case-card__media" href="#" aria-label="Abrir case Palco Principal">
+              <img class="case-card__img" src="assets/img/case-stage.jpg" alt="Palestrante no centro de um palco cenográfico" loading="lazy" decoding="async" />
+              <span class="case-card__overlay"></span>
+              <span class="case-card__play" aria-hidden="true">▶</span>
+            </a>
+            <div class="case-card__cap">
+              <p class="case-card__name">Palco Principal</p>
+              <p class="case-card__meta">980 pessoas · Iberostar · Salvador</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== CLIENTES ===================== -->
+    <section class="section section--invert clientes" id="clientes" aria-labelledby="clientes-title">
+      <div class="container">
+        <h2 class="eyebrow" id="clientes-title" style="display:block;text-align:center" data-reveal>Clientes</h2>
+        <div class="clientes__logos" data-reveal>
+          <img class="clientes__logo" src="assets/img/logo-iof.svg" alt="IOF" loading="lazy" />
+          <img class="clientes__logo" src="assets/img/logo-busco.svg" alt="Busco" loading="lazy" />
+          <img class="clientes__logo" src="assets/img/logo-loft.svg" alt="Loft" loading="lazy" />
+          <img class="clientes__logo" src="assets/img/logo-sky.svg" alt="SKY" loading="lazy" />
+          <img class="clientes__logo" src="assets/img/logo-terraquest.svg" alt="Terraquest" loading="lazy" />
+        </div>
+        <p class="clientes__manifesto" data-reveal>Criamos experiências memoráveis que geram <em class="marker">conexões reais</em> entre marcas e clientes.</p>
+        <ol class="clientes__metrics">
+          <li class="clientes__metric"><span class="index-num">01</span><h3>Estratégia Atingida</h3></li>
+          <li class="clientes__metric"><span class="index-num">02</span><h3>Confiança e Tranquilidade</h3></li>
+          <li class="clientes__metric"><span class="index-num">03</span><h3>Budget Planejado</h3></li>
+          <li class="clientes__metric"><span class="index-num">04</span><h3>Excelência da Entrega</h3></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===================== CONTATO ===================== -->
+    <section class="section section--alt contato" id="contato" aria-labelledby="contato-title">
+      <div class="container">
+        <h2 class="contato__title" id="contato-title" data-reveal data-marker-draw>Vamos conversar sobre<br /><em class="marker">o seu próximo projeto</em></h2>
+        <form class="contato__form" id="contato-form" novalidate data-reveal>
+          <div class="field">
+            <input type="text" id="nome" name="nome" placeholder=" " required autocomplete="name" />
+            <label for="nome">Nome</label>
+          </div>
+          <div class="field">
+            <input type="text" id="empresa" name="empresa" placeholder=" " autocomplete="organization" />
+            <label for="empresa">Empresa</label>
+          </div>
+          <div class="field">
+            <input type="tel" id="whatsapp" name="whatsapp" placeholder=" " autocomplete="tel"
+                   aria-describedby="contato-micro" required />
+            <label for="whatsapp">WhatsApp</label>
+          </div>
+          <button type="submit" class="btn btn--primary contato__submit">Iniciar conversa <span class="arrow">→</span></button>
+          <p class="contato__micro" id="contato-micro">Sem lead scoring, apenas uma conversa.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <a class="brand" href="#topo" aria-label="Marguerite">
+        <img class="brand__mark" src="assets/img/mark.svg" alt="" aria-hidden="true" width="26" height="26" />
+        <span><span class="brand__name">marguerite</span><span class="brand__tag">agência de experiência</span></span>
+      </a>
+      <nav class="footer__links" aria-label="Rodapé">
+        <a href="mailto:contato@marguerite.com.br">contato@marguerite.com.br</a>
+        <a href="#">São Paulo / SP</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Política de Privacidade</a>
+      </nav>
+      <small>© <span id="year"></span> Marguerite. Todos os direitos reservados.</small>
+    </div>
+  </footer>
+
+  <!-- Vendor (globais): GSAP + ScrollTrigger + Lenis -->
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/ScrollTrigger.min.js"></script>
+  <script src="assets/vendor/lenis.min.js"></script>
+  <!-- App -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

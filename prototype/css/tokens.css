@@ -1,0 +1,83 @@
+/* ==========================================================================
+   Marguerite — Design Tokens (fonte única de verdade)
+   Espelhado em docs/02-arquitetura.md §1. Consumido também pelo theme.json (Fase 4).
+   ========================================================================== */
+:root {
+  /* -- Cor: ameixa / aubergine (escuros) ---------------------------------- */
+  --c-ink-900: #1D010E; /* footer, o mais profundo */
+  --c-ink-800: #2C1F2A; /* sombra do duotone hero, texto principal */
+  --c-ink-700: #3A2837; /* faixa Clientes, blocos escuros */
+  --c-ink-600: #665761; /* ameixa média (texto secundário) */
+
+  /* -- Cor: off-white (claros) -------------------------------------------- */
+  --c-paper-000: #FDFDFD;
+  --c-paper-100: #F6EFEB;
+  --c-paper-200: #E9D8CC;
+
+  /* -- Acento único vivo -------------------------------------------------- */
+  --c-marker: #E9EF89;
+  --c-marker-ink: #2C1F2A;
+
+  /* -- Duotone: LENTE ROXA (hero) ----------------------------------------- */
+  --duo-hero-shadow: #2C1F2A;
+  --duo-hero-light:  #6A5B64;
+
+  /* -- Duotone: terracota (retratos institucionais) ----------------------- */
+  --duo-warm-shadow: #98460D;
+  --duo-warm-light:  #D8B9A3;
+
+  /* -- Semânticos --------------------------------------------------------- */
+  --bg:        var(--c-paper-000);
+  --bg-alt:    var(--c-paper-100);
+  --bg-invert: var(--c-ink-700);
+  --fg:        var(--c-ink-800);
+  --fg-muted:  var(--c-ink-600);
+  --fg-invert: var(--c-paper-000);
+  --line:      color-mix(in srgb, var(--c-ink-800) 12%, transparent);
+  --line-invert: color-mix(in srgb, var(--c-paper-000) 18%, transparent);
+  --accent:    var(--c-marker);
+  --focus:     #6A5B64;
+
+  /* -- Tipografia --------------------------------------------------------- */
+  --font-sans: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --step--1: clamp(0.83rem, 0.78rem + 0.24vw, 0.95rem);
+  --step-0:  clamp(1.00rem, 0.94rem + 0.30vw, 1.18rem);
+  --step-1:  clamp(1.33rem, 1.16rem + 0.85vw, 1.90rem);
+  --step-2:  clamp(1.78rem, 1.35rem + 2.10vw, 3.05rem);
+  --step-3:  clamp(2.37rem, 1.55rem + 4.10vw, 4.88rem);
+  --step-4:  clamp(3.16rem, 1.40rem + 8.80vw, 7.80rem);
+
+  --w-hair: 200; --w-light: 300; --w-reg: 400; --w-med: 500;
+  --w-semi: 600; --w-bold: 700; --w-xbold: 800; --w-black: 900;
+
+  --lh-tight: 0.98;
+  --lh-snug:  1.12;
+  --lh-body:  1.55;
+  --tracking-display: -0.02em;
+  --tracking-eyebrow: 0.16em;
+
+  /* -- Espaço / ritmo / grid --------------------------------------------- */
+  --space-3xs: 4px; --space-2xs: 8px; --space-xs: 12px;
+  --space-s: 16px;  --space-m: 24px;  --space-l: 40px;
+  --space-xl: 64px; --space-2xl: 96px; --space-3xl: 160px; --space-4xl: 240px;
+
+  --container: 1440px;
+  --container-text: 68ch;
+  --gutter: clamp(20px, 4vw, 80px);
+  --grid-cols: 12;
+  --radius-s: 6px; --radius-m: 12px; --radius-pill: 999px;
+  --section-pad: clamp(72px, 12vh, 200px);
+
+  /* -- Movimento ---------------------------------------------------------- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:   cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 240ms; --dur-med: 560ms; --dur-slow: 900ms; --dur-cine: 1400ms;
+  --stagger: 80ms;
+
+  /* -- Camadas ------------------------------------------------------------ */
+  --z-hero-canvas: 0;
+  --z-hero-content: 2;
+  --z-header: 100;
+  --z-menu: 200;
+}

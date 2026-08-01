@@ -1,0 +1,15 @@
+# Dependências / build
+node_modules/
+dist/
+build/
+*.log
+
+# SO / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporários
+*.tmp
+.cache/

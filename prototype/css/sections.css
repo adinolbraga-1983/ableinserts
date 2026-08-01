@@ -1,0 +1,213 @@
+/* ==========================================================================
+   Header + Nav
+   ========================================================================== */
+.site-header {
+  position: fixed; inset: 0 0 auto 0; z-index: var(--z-header);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-l);
+  padding: var(--space-s) var(--gutter);
+  color: var(--c-ink-800);
+  transition: background var(--dur-med) var(--ease-out-expo),
+              box-shadow var(--dur-med) var(--ease-out-expo),
+              padding var(--dur-med) var(--ease-out-expo),
+              color var(--dur-med) var(--ease-out-expo);
+}
+.site-header.is-stuck {
+  background: color-mix(in srgb, var(--c-paper-000) 88%, transparent);
+  backdrop-filter: saturate(1.2) blur(14px);
+  box-shadow: 0 1px 0 var(--line);
+  padding-block: var(--space-2xs);
+}
+/* Sobre o hero (escuro) o header nasce claro */
+.site-header[data-over-dark="true"]:not(.is-stuck) { color: var(--c-paper-000); }
+
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: var(--w-semi); letter-spacing: -0.01em; }
+.brand__mark { width: 26px; height: 26px; flex: none; }
+.brand__name { font-size: 1.15rem; }
+.brand__tag { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; opacity: .7; display:block; line-height:1; }
+
+.nav { display: flex; align-items: center; gap: clamp(16px, 2vw, 34px); }
+.nav__link {
+  position: relative; font-size: var(--step-0); font-weight: var(--w-reg);
+  padding: 4px 0; opacity: .82;
+  transition: opacity var(--dur-fast) var(--ease-out-expo);
+}
+.nav__link::after {
+  content: ""; position: absolute; left: 0; bottom: -2px; height: 1px; width: 0;
+  background: currentColor; transition: width var(--dur-med) var(--ease-out-expo);
+}
+.nav__link:hover { opacity: 1; }
+.nav__link.is-active { opacity: 1; font-weight: var(--w-med); }
+.nav__link.is-active::after { width: 100%; }
+
+.header__cta { font-weight: var(--w-semi); font-size: var(--step-0); text-transform: uppercase; letter-spacing: .04em; }
+
+.nav-toggle { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; }
+.nav-toggle span { display:block; width: 22px; height: 2px; background: currentColor; position: relative; }
+.nav-toggle span::before, .nav-toggle span::after { content:""; position:absolute; left:0; width:22px; height:2px; background:currentColor; }
+.nav-toggle span::before { top: -7px; } .nav-toggle span::after { top: 7px; }
+
+/* ==========================================================================
+   HERO cinematográfico
+   ========================================================================== */
+.hero { position: relative; min-height: 100svh; display: grid; align-items: end; overflow: clip; color: var(--c-paper-000); }
+.hero__stage { position: absolute; inset: 0; z-index: var(--z-hero-canvas); }
+.hero__canvas { width: 100%; height: 100%; display: block; }
+/* Fallback / base sob o canvas: vídeo + duotone CSS (lente roxa) */
+.hero__media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero__duotone {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--duo-hero-shadow) 55%, transparent),
+    color-mix(in srgb, var(--duo-hero-shadow) 78%, transparent));
+  mix-blend-mode: multiply;
+}
+.hero__tint { position:absolute; inset:0; background: radial-gradient(120% 90% at 30% 20%, transparent, color-mix(in srgb, var(--c-ink-900) 60%, transparent)); }
+.hero.webgl-on .hero__media, .hero.webgl-on .hero__duotone, .hero.webgl-on .hero__tint { opacity: 0; }
+
+.hero__content {
+  position: relative; z-index: var(--z-hero-content);
+  width: min(100% - var(--gutter) * 2, var(--container));
+  margin-inline: auto;
+  padding-bottom: clamp(48px, 9vh, 130px); padding-top: 40vh;
+}
+.hero__title {
+  font-size: var(--step-4); font-weight: var(--w-med);
+  line-height: var(--lh-tight); letter-spacing: var(--tracking-display);
+  max-width: 16ch;
+}
+.hero__title .line { display: block; overflow: hidden; }
+.hero__title .line > span { display: block; }
+.hero__sub { margin-top: var(--space-l); max-width: 46ch; font-size: var(--step-1); font-weight: var(--w-light); color: color-mix(in srgb, var(--c-paper-000) 88%, transparent); }
+.hero__meta { margin-top: var(--space-xl); display: flex; gap: var(--space-s); font-size: var(--step--1); letter-spacing: .1em; text-transform: uppercase; opacity: .72; }
+.hero__scroll { position: absolute; left: 50%; bottom: 22px; translate: -50% 0; z-index: 3; font-size: var(--step--1); letter-spacing: .18em; text-transform: uppercase; opacity: .7; display:flex; flex-direction:column; align-items:center; gap:10px; }
+.hero__scroll .bar { width: 1px; height: 46px; background: currentColor; transform-origin: top; animation: scrollBar 2.4s var(--ease-in-out) infinite; }
+@keyframes scrollBar { 0%,100% { transform: scaleY(.3); opacity:.4 } 50% { transform: scaleY(1); opacity:1 } }
+
+/* ==========================================================================
+   SOBRE / 34 anos (duotone terracota)
+   ========================================================================== */
+.sobre { position: relative; color: var(--c-paper-000); overflow: clip; min-height: 92svh; display: grid; align-items: center; }
+.sobre__bg { position: absolute; inset: -8% 0; z-index: 0; }
+.sobre__img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); }
+.sobre__duotone { position:absolute; inset:0; background: linear-gradient(90deg, color-mix(in srgb, var(--c-ink-900) 82%, transparent) 0%, color-mix(in srgb, var(--c-ink-800) 30%, transparent) 60%, transparent 100%); }
+.sobre__warm { position:absolute; inset:0; background: linear-gradient(90deg, transparent 30%, color-mix(in srgb, var(--duo-warm-shadow) 30%, transparent)); mix-blend-mode: soft-light; }
+.sobre__inner { position: relative; z-index: 1; }
+.sobre__body { max-width: 44ch; }
+.sobre__title { font-size: var(--step-3); font-weight: var(--w-med); }
+.sobre__text { margin-top: var(--space-m); color: color-mix(in srgb, var(--c-paper-000) 86%, transparent); }
+.sobre__services { margin-top: var(--space-l); display: flex; flex-wrap: wrap; gap: var(--space-2xs) var(--space-m); }
+.sobre__services li { position: relative; padding-left: 18px; font-size: var(--step-0); }
+.sobre__services li::before { content:""; position:absolute; left:0; top:.62em; width:8px; height:8px; border-radius:50%; background: var(--c-marker); }
+.sobre__cta { margin-top: var(--space-xl); }
+
+/* ==========================================================================
+   METODOLOGIA
+   ========================================================================== */
+.metodo__head { display: grid; gap: var(--space-s); margin-bottom: var(--space-2xl); }
+.metodo__title { font-size: var(--step-3); font-weight: var(--w-med); max-width: 18ch; }
+.metodo__title .anchor { position: relative; white-space: nowrap; }
+.metodo__title .anchor::after {
+  content:""; position:absolute; left:0; right:0; bottom: .08em; height: .09em; background: var(--c-marker);
+  transform: scaleX(0); transform-origin: left; transition: transform var(--dur-slow) var(--ease-out-expo);
+}
+.metodo__title.is-in .anchor::after { transform: scaleX(1); }
+.metodo__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-l); }
+.metodo__item { padding-top: var(--space-m); border-top: 1px solid var(--line); }
+.metodo__item .index-num { color: var(--fg-muted); display:block; margin-bottom: var(--space-s); }
+.metodo__item h3 { font-size: var(--step-1); font-weight: var(--w-med); letter-spacing: -0.01em; }
+.metodo__item:last-child h3 { font-weight: var(--w-bold); }
+.metodo__foot { margin-top: var(--space-2xl); max-width: 60ch; color: var(--fg-muted); }
+
+/* ==========================================================================
+   CASES — galeria de exposição (scroll horizontal)
+   ========================================================================== */
+.cases__head { display: flex; align-items: end; justify-content: space-between; gap: var(--space-l); margin-bottom: var(--space-xl); }
+.cases__title { font-size: var(--step-2); font-weight: var(--w-med); max-width: 16ch; }
+.cases__track-wrap { width: 100%; overflow: hidden; }
+.cases__track { display: flex; gap: var(--space-l); padding-inline: var(--gutter); will-change: transform; cursor: grab; }
+.cases__track.is-dragging { cursor: grabbing; }
+.case-card { flex: 0 0 clamp(280px, 34vw, 520px); }
+.case-card__media { position: relative; aspect-ratio: 3/4; overflow: hidden; border-radius: var(--radius-m); background: var(--c-ink-700); }
+.case-card__img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-cine) var(--ease-out-expo); }
+.case-card:hover .case-card__img { transform: scale(1.05); }
+.case-card__play {
+  position: absolute; right: 16px; bottom: 16px; width: 46px; height: 46px; border-radius: 50%;
+  background: color-mix(in srgb, var(--c-ink-900) 55%, transparent);
+  backdrop-filter: blur(6px); display: grid; place-items: center; color: #fff;
+  border: 1px solid var(--line-invert);
+  transition: transform var(--dur-fast) var(--ease-out-expo), background var(--dur-fast);
+}
+.case-card:hover .case-card__play { transform: scale(1.08); background: color-mix(in srgb, var(--c-ink-900) 75%, transparent); }
+.case-card__overlay { position:absolute; inset:0; background: linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--c-ink-900) 72%, transparent)); }
+.case-card__cap { margin-top: var(--space-s); }
+.case-card__name { font-weight: var(--w-med); font-size: var(--step-0); }
+.case-card__meta { color: var(--fg-muted); font-size: var(--step--1); margin-top: 2px; }
+
+/* ==========================================================================
+   CLIENTES (faixa ameixa)
+   ========================================================================== */
+.clientes__logos { display: flex; align-items: center; gap: clamp(28px, 5vw, 78px); flex-wrap: wrap; justify-content: center; margin-bottom: var(--space-2xl); opacity: .9; }
+.clientes__logo { height: 26px; width: auto; filter: brightness(0) invert(1); opacity: .8; transition: opacity var(--dur-fast); }
+.clientes__logo:hover { opacity: 1; }
+.clientes__manifesto { text-align: center; font-size: var(--step-2); font-weight: var(--w-light); max-width: 22ch; margin-inline: auto; line-height: var(--lh-snug); }
+.clientes__metrics { margin-top: var(--space-2xl); display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-l); }
+.clientes__metric { padding-top: var(--space-m); border-top: 1px solid var(--line-invert); }
+.clientes__metric .index-num { color: var(--c-marker); display:block; margin-bottom: var(--space-2xs); }
+.clientes__metric h3 { font-size: var(--step-0); font-weight: var(--w-med); text-transform: uppercase; letter-spacing: .05em; }
+
+/* ==========================================================================
+   CONTATO
+   ========================================================================== */
+.contato { text-align: center; }
+/* line-height mais generoso: o marcador se estende por 2 linhas e precisa de folga */
+.contato__title { font-size: var(--step-3); font-weight: var(--w-med); max-width: 16ch; margin-inline: auto; line-height: 1.2; }
+.contato__form { margin-top: var(--space-2xl); max-width: 640px; margin-inline: auto; display: grid; gap: var(--space-m); }
+.field { position: relative; text-align: left; }
+.field input {
+  width: 100%; padding: 18px 4px 8px; background: transparent;
+  border: none; border-bottom: 1px solid var(--line); font-size: var(--step-0);
+  transition: border-color var(--dur-fast);
+}
+.field input:focus { outline: none; border-color: var(--c-ink-800); }
+.field label { position: absolute; left: 4px; top: 16px; color: var(--fg-muted); pointer-events: none; transition: transform var(--dur-fast) var(--ease-out-expo), font-size var(--dur-fast), color var(--dur-fast); }
+.field input:focus + label, .field input:not(:placeholder-shown) + label { transform: translateY(-16px); font-size: var(--step--1); color: var(--c-ink-800); }
+.contato__submit { justify-self: center; margin-top: var(--space-s); }
+.contato__micro { margin-top: var(--space-m); color: var(--fg-muted); font-size: var(--step--1); }
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.site-footer { background: var(--c-ink-900); color: color-mix(in srgb, var(--c-paper-000) 78%, transparent); }
+.site-footer .container { display: flex; align-items: center; justify-content: space-between; gap: var(--space-l); flex-wrap: wrap; padding-block: var(--space-xl); }
+.site-footer .brand { color: var(--c-paper-000); }
+.footer__links { display: flex; gap: var(--space-l); flex-wrap: wrap; font-size: var(--step--1); }
+.footer__links a { opacity: .8; } .footer__links a:hover { opacity: 1; }
+
+/* ==========================================================================
+   Menu mobile overlay
+   ========================================================================== */
+.menu-overlay {
+  position: fixed; inset: 0; z-index: var(--z-menu); background: var(--c-ink-900); color: var(--c-paper-000);
+  display: grid; place-content: center; gap: var(--space-l);
+  transform: translateY(-100%); transition: transform var(--dur-med) var(--ease-in-out);
+}
+.menu-overlay.is-open { transform: translateY(0); }
+.menu-overlay a { font-size: var(--step-2); font-weight: var(--w-med); }
+.menu-overlay__close { position: absolute; top: var(--space-l); right: var(--gutter); font-size: 2rem; }
+
+/* ==========================================================================
+   Responsivo
+   ========================================================================== */
+@media (max-width: 1023px) {
+  .metodo__grid, .clientes__metrics { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .nav, .header__cta { display: none; }
+  .nav-toggle { display: flex; }
+  .metodo__grid { grid-template-columns: 1fr; gap: var(--space-m); }
+  .clientes__metrics { grid-template-columns: 1fr 1fr; }
+  .hero__content { padding-top: 32vh; }
+  .cases__head { flex-direction: column; align-items: start; }
+  .site-footer .container { flex-direction: column; align-items: start; }
+}
