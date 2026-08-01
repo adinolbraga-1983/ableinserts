@@ -17,6 +17,7 @@ $lente    = ( '' === $lente || null === $lente ) ? true : (bool) $lente;
 $video    = get_field( 'video' );
 $video    = $video ?: marguerite_asset( 'video/hero.mp4' );
 $webm     = get_field( 'video_webm' );
+$webm     = $webm ?: marguerite_asset( 'video/hero.webm' );
 $poster   = get_field( 'poster' );
 $poster_url = is_array( $poster ) ? ( $poster['url'] ?? '' ) : $poster;
 $poster_url = $poster_url ?: marguerite_asset( 'img/hero-poster.jpg' );
@@ -33,7 +34,7 @@ $block_id = ! empty( $block['anchor'] ) ? esc_attr( $block['anchor'] ) : 'hero';
 <section class="hero<?php echo $lente ? '' : ' no-lente'; ?>" id="<?php echo $block_id; ?>" aria-label="Apresentação">
 	<div class="hero__stage" aria-hidden="true">
 		<canvas class="hero__canvas" id="hero-canvas"></canvas>
-		<video class="hero__media" id="hero-video" playsinline muted loop preload="metadata" poster="<?php echo esc_url( $poster_url ); ?>">
+		<video class="hero__media" id="hero-video" playsinline muted loop autoplay preload="metadata" poster="<?php echo esc_url( $poster_url ); ?>">
 			<?php if ( $webm ) : ?><source src="<?php echo esc_url( $webm ); ?>" type="video/webm" /><?php endif; ?>
 			<source src="<?php echo esc_url( $video ); ?>" type="video/mp4" />
 		</video>
