@@ -153,7 +153,18 @@
    CLIENTES (faixa ameixa, h/W ≈ 0.197)
    ========================================================================== */
 .clientes { padding-block: clamp(44px, 5.5vw, 92px); }
-.clientes__logos { display: flex; align-items: center; gap: clamp(28px, 5vw, 78px); flex-wrap: wrap; justify-content: center; margin-bottom: clamp(32px, 4vw, 68px); opacity: .9; }
+/* Marquee de logos (repete e rola, como na referência); pausa no hover */
+.clientes__marquee { position: relative; overflow: hidden; margin-bottom: clamp(32px, 4vw, 68px);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.clientes__track { display: flex; align-items: center; width: max-content; gap: clamp(48px, 7vw, 120px);
+  animation: marquee 34s linear infinite; }
+.clientes__marquee:hover .clientes__track { animation-play-state: paused; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-33.333%); } }
+@media (prefers-reduced-motion: reduce) {
+  .clientes__track { animation: none; width: 100%; justify-content: center; flex-wrap: wrap; gap: clamp(28px, 5vw, 78px); }
+  .clientes__track .clientes__logo[aria-hidden="true"] { display: none; }
+}
 .clientes__logo { width: auto; filter: brightness(0) invert(1); opacity: .72; transition: opacity var(--dur-fast); }
 .clientes__logo:hover { opacity: 1; }
 /* alturas por marca para equilíbrio óptico (proporções nativas diferentes) */

@@ -13,3 +13,6 @@ Thumbs.db
 # Temporários
 *.tmp
 .cache/
+
+# HTML standalone gerado (grande; reproduzir com prototype/build-standalone.py)
+prototype/standalone/*.html
