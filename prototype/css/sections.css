@@ -154,8 +154,13 @@
    ========================================================================== */
 .clientes { padding-block: clamp(44px, 5.5vw, 92px); }
 .clientes__logos { display: flex; align-items: center; gap: clamp(28px, 5vw, 78px); flex-wrap: wrap; justify-content: center; margin-bottom: clamp(32px, 4vw, 68px); opacity: .9; }
-.clientes__logo { height: 24px; width: auto; filter: brightness(0) invert(1); opacity: .78; transition: opacity var(--dur-fast); }
+.clientes__logo { width: auto; filter: brightness(0) invert(1); opacity: .72; transition: opacity var(--dur-fast); }
 .clientes__logo:hover { opacity: 1; }
+/* alturas por marca para equilíbrio óptico (proporções nativas diferentes) */
+.clientes__logo--tegra { height: 30px; }
+.clientes__logo--loft  { height: 26px; }
+.clientes__logo--busco { height: 24px; }
+.clientes__logo--sky   { height: 20px; }
 .clientes__manifesto { text-align: center; font-size: clamp(1.5rem, 1rem + 1.7vw, 2.5rem); font-weight: var(--w-light); max-width: 24ch; margin-inline: auto; line-height: 1.14; }
 .clientes__metrics { margin-top: clamp(32px, 4vw, 68px); display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(20px, 3vw, 48px); }
 .clientes__metric { padding-top: var(--space-m); border-top: 1px solid var(--line-invert); }
