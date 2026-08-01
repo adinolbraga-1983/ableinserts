@@ -108,52 +108,33 @@ function initParallax() {
 }
 
 /* -------------------------------------------------------------------------
-   6. Cases — galeria horizontal (wheel + drag + inércia)
+   6. Cases — grid 4-up no desktop (LayoutHOme); scroll horizontal nativo ≤1023.
+   Enriquece o scroll nativo com roda vertical→horizontal e teclado (a11y).
    ------------------------------------------------------------------------- */
 function initCasesGallery() {
   const track = document.getElementById("cases-track");
   if (!track) return;
-  const maxScroll = () => track.scrollWidth - track.parentElement.clientWidth;
-  let x = 0, target = 0, dragging = false, startX = 0, startTarget = 0, raf = 0;
+  const scrolls = () => track.scrollWidth - track.clientWidth > 4; // só quando há overflow (mobile/tablet)
 
-  const clamp = (v) => Math.max(0, Math.min(maxScroll(), v));
-  const render = () => {
-    x += (target - x) * 0.12;
-    track.style.transform = `translate3d(${-x}px,0,0)`;
-    if (Math.abs(target - x) > 0.4) raf = requestAnimationFrame(render);
-  };
-  const kick = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(render); };
-
-  // roda do mouse converte vertical→horizontal quando a galeria está sob o cursor
-  track.parentElement.addEventListener("wheel", (e) => {
-    const primary = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-    if (maxScroll() <= 0) return;
-    const atStart = target <= 0 && primary < 0, atEnd = target >= maxScroll() && primary > 0;
-    if (atStart || atEnd) return; // deixa a página rolar nos limites
-    e.preventDefault();
-    target = clamp(target + primary); kick();
-  }, { passive: false });
-
-  // drag (mouse + touch)
-  const down = (px) => { dragging = true; startX = px; startTarget = target; track.classList.add("is-dragging"); if (lenis) lenis.stop(); };
-  const move = (px) => { if (!dragging) return; target = clamp(startTarget - (px - startX) * 1.4); kick(); };
-  const up = () => { dragging = false; track.classList.remove("is-dragging"); if (lenis) lenis.start(); };
-
-  track.addEventListener("mousedown", (e) => { e.preventDefault(); down(e.clientX); });
-  window.addEventListener("mousemove", (e) => move(e.clientX));
-  window.addEventListener("mouseup", up);
-  track.addEventListener("touchstart", (e) => down(e.touches[0].clientX), { passive: true });
-  track.addEventListener("touchmove", (e) => move(e.touches[0].clientX), { passive: true });
-  track.addEventListener("touchend", up);
-
-  // teclado (a11y): setas movem um card
-  track.parentElement.tabIndex = 0;
-  track.parentElement.setAttribute("aria-label", "Galeria de cases — use as setas para navegar");
-  track.parentElement.addEventListener("keydown", (e) => {
-    const step = 340;
-    if (e.key === "ArrowRight") { target = clamp(target + step); kick(); }
-    if (e.key === "ArrowLeft")  { target = clamp(target - step); kick(); }
+  track.tabIndex = 0;
+  track.setAttribute("aria-label", "Galeria de cases — use as setas para navegar");
+  track.addEventListener("keydown", (e) => {
+    if (!scrolls()) return;
+    const step = track.clientWidth * 0.7;
+    if (e.key === "ArrowRight") { track.scrollBy({ left: step, behavior: "smooth" }); e.preventDefault(); }
+    if (e.key === "ArrowLeft")  { track.scrollBy({ left: -step, behavior: "smooth" }); e.preventDefault(); }
   });
+
+  // roda vertical → horizontal quando a faixa realmente rola (não intercepta no grid)
+  track.addEventListener("wheel", (e) => {
+    if (!scrolls()) return;
+    const primary = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    const atStart = track.scrollLeft <= 0 && primary < 0;
+    const atEnd = track.scrollLeft >= track.scrollWidth - track.clientWidth - 1 && primary > 0;
+    if (atStart || atEnd) return;
+    e.preventDefault();
+    track.scrollLeft += primary;
+  }, { passive: false });
 }
 
 /* -------------------------------------------------------------------------

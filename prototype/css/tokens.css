@@ -3,28 +3,31 @@
    Espelhado em docs/02-arquitetura.md §1. Consumido também pelo theme.json (Fase 4).
    ========================================================================== */
 :root {
-  /* -- Cor: ameixa / aubergine (escuros) ---------------------------------- */
-  --c-ink-900: #1D010E; /* footer, o mais profundo */
-  --c-ink-800: #2C1F2A; /* sombra do duotone hero, texto principal */
-  --c-ink-700: #3A2837; /* faixa Clientes, blocos escuros */
-  --c-ink-600: #665761; /* ameixa média (texto secundário) */
+  /* -- Cor: ameixa / aubergine (OFICIAL — brand guide Dangebel p.05) ------- */
+  --c-ink-900: #1B0710; /* footer, o mais profundo */
+  --c-ink-800: #260B15; /* preto profundo — hero/clientes, blocos escuros */
+  --c-ink-700: #3B2838; /* beringela fechado — texto principal, botões */
+  --c-ink-600: #6A5B64; /* ameixa média (texto secundário) */
 
   /* -- Cor: off-white (claros) -------------------------------------------- */
   --c-paper-000: #FDFDFD;
   --c-paper-100: #F6EFEB;
   --c-paper-200: #E9D8CC;
 
-  /* -- Acento único vivo -------------------------------------------------- */
-  --c-marker: #E9EF89;
-  --c-marker-ink: #2C1F2A;
+  /* -- Acento único vivo (OFICIAL: amarelo iluminado #E5E46C) -------------- */
+  --c-marker: #E5E46C;
+  --c-marker-ink: #260B15;
 
-  /* -- Duotone: LENTE ROXA (hero) ----------------------------------------- */
-  --duo-hero-shadow: #2C1F2A;
-  --duo-hero-light:  #6A5B64;
+  /* -- Lavanda acinzentado (OFICIAL #AFADC3) — luz da lente roxa ----------- */
+  --c-lavender: #AFADC3;
 
-  /* -- Duotone: terracota (retratos institucionais) ----------------------- */
+  /* -- Duotone: LENTE ROXA (hero) — sombra beringela → luz mauve ---------- */
+  --duo-hero-shadow: #260B15;
+  --duo-hero-light:  #8E7E8A;
+
+  /* -- Duotone: terracota (OFICIAL terroso #D3AA8C) — retratos ------------- */
   --duo-warm-shadow: #98460D;
-  --duo-warm-light:  #D8B9A3;
+  --duo-warm-light:  #D3AA8C;
 
   /* -- Semânticos --------------------------------------------------------- */
   --bg:        var(--c-paper-000);
