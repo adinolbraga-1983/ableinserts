@@ -48,48 +48,44 @@
 .nav-toggle span::before { top: -7px; } .nav-toggle span::after { top: 7px; }
 
 /* ==========================================================================
-   HERO — banda cinematográfica (LayoutHOme: h/W ≈ 0.458 → ~2.18:1)
-   Texto ocupa a metade-esquerda, verticalmente centralizado.
+   HERO — vídeo full-screen dirigido pelo scroll (frame-sequence + pin/scrub)
+   Rolar pra baixo avança o vídeo; pra cima, reverte. Textos entram e saem.
    ========================================================================== */
-.hero {
-  position: relative; width: 100%;
-  height: clamp(600px, 46vw, 940px);   /* proporção-banda fiel à referência */
-  display: grid; align-items: center; overflow: clip; color: var(--c-paper-000);
-}
-.hero__stage { position: absolute; inset: 0; z-index: var(--z-hero-canvas); }
-.hero__canvas { width: 100%; height: 100%; display: block; }
-.hero__media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.hero__duotone {
-  position: absolute; inset: 0;
-  background: linear-gradient(105deg,
-    color-mix(in srgb, var(--duo-hero-shadow) 88%, transparent) 0%,
-    color-mix(in srgb, var(--duo-hero-shadow) 62%, transparent) 45%,
-    color-mix(in srgb, var(--duo-hero-shadow) 40%, transparent) 100%);
-  mix-blend-mode: multiply;
-}
-.hero__tint { position:absolute; inset:0; background: radial-gradient(130% 100% at 25% 45%, transparent, color-mix(in srgb, var(--c-ink-900) 55%, transparent)); }
-/* Scrim de topo sempre visível (legibilidade do header, inclusive no caminho WebGL) */
-.hero::before { content:""; position:absolute; inset:0 0 auto 0; height: 26%; z-index: 1;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--c-ink-900) 46%, transparent), transparent); pointer-events:none; }
-.hero.webgl-on .hero__media, .hero.webgl-on .hero__duotone, .hero.webgl-on .hero__tint { opacity: 0; }
+.hero { position: relative; width: 100%; color: var(--c-paper-000); }
+.hero__pin { position: relative; width: 100%; height: 100svh; overflow: clip; }
+.hero__canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; background: var(--c-ink-900); }
+/* Poster de base (LCP), coberto pelo canvas assim que a sequência carrega */
+.hero__poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero.seq-ready .hero__poster { opacity: 0; }
+/* Scrims: topo (legibilidade do header) + base (leitura dos textos) */
+.hero__scrim { position: absolute; inset: 0; z-index: 1; pointer-events: none; background:
+  linear-gradient(180deg, color-mix(in srgb, var(--c-ink-900) 52%, transparent) 0%, transparent 20%),
+  linear-gradient(0deg, color-mix(in srgb, var(--c-ink-900) 62%, transparent) 0%, transparent 42%),
+  radial-gradient(120% 90% at 28% 60%, transparent, color-mix(in srgb, var(--c-ink-900) 40%, transparent)); }
 
-.hero__content {
-  position: relative; z-index: var(--z-hero-content);
-  width: min(100% - var(--gutter) * 2, var(--container));
-  margin-inline: auto;
-}
-.hero__title {
-  font-size: clamp(2.4rem, 1.1rem + 4.6vw, 4.6rem); /* ~43% da largura em "memoráveis não" */
-  font-weight: var(--w-med); line-height: 1.02; letter-spacing: var(--tracking-display);
-  max-width: 15ch;
-}
+.hero__scenes { position: absolute; inset: 0; z-index: 2;
+  display: grid; align-content: end;
+  width: min(100% - var(--gutter) * 2, var(--container)); margin-inline: auto;
+  padding-bottom: clamp(64px, 12vh, 160px); }
+.hero__scene { grid-area: 1 / 1; will-change: transform, opacity, filter; }
+.hero__title { font-size: clamp(2.6rem, 1rem + 5.4vw, 5.4rem); font-weight: var(--w-med); line-height: 1.0; letter-spacing: var(--tracking-display); max-width: 16ch; }
 .hero__title .line { display: block; overflow: hidden; }
 .hero__title .line > span { display: block; }
-.hero__sub { margin-top: var(--space-m); max-width: 34ch; font-size: var(--step-0); font-weight: var(--w-light); color: color-mix(in srgb, var(--c-paper-000) 86%, transparent); }
-.hero__meta { margin-top: var(--space-l); display: flex; gap: var(--space-s); font-size: var(--step--1); letter-spacing: .12em; text-transform: uppercase; opacity: .65; }
-.hero__scroll { position: absolute; left: 50%; bottom: 20px; translate: -50% 0; z-index: 3; font-size: var(--step--1); letter-spacing: .18em; text-transform: uppercase; opacity: .7; display:flex; flex-direction:column; align-items:center; gap:10px; }
-.hero__scroll .bar { width: 1px; height: 42px; background: currentColor; transform-origin: top; animation: scrollBar 2.4s var(--ease-in-out) infinite; }
-@keyframes scrollBar { 0%,100% { transform: scaleY(.3); opacity:.4 } 50% { transform: scaleY(1); opacity:1 } }
+.hero__sub { margin-top: var(--space-m); max-width: 34ch; font-size: var(--step-0); font-weight: var(--w-light); color: color-mix(in srgb, var(--c-paper-000) 88%, transparent); }
+.hero__big { font-size: clamp(3rem, 1rem + 7vw, 7rem); font-weight: var(--w-med); line-height: 1.0; letter-spacing: var(--tracking-display); }
+.hero__scene--2 { opacity: 0; } /* entra via scroll */
+
+.hero__meta { position: absolute; left: 0; bottom: clamp(24px, 4vh, 54px); z-index: 3;
+  width: min(100% - var(--gutter) * 2, var(--container)); margin-inline: auto; left: 50%; translate: -50% 0;
+  display: flex; gap: var(--space-s); font-size: var(--step--1); letter-spacing: .12em; text-transform: uppercase; opacity: .6; }
+.hero__progress { position: absolute; right: var(--gutter); bottom: clamp(24px, 4vh, 54px); z-index: 3;
+  font-size: var(--step--1); letter-spacing: .18em; text-transform: uppercase; opacity: .55; display: flex; align-items: center; gap: 10px; }
+.hero__progress .track { width: 60px; height: 1px; background: color-mix(in srgb, var(--c-paper-000) 30%, transparent); position: relative; }
+.hero__progress .track i { position: absolute; inset: 0 auto 0 0; width: var(--p, 0%); background: var(--c-paper-000); }
+
+/* Sem pin/scrub (reduced-motion): hero estático de uma tela, texto visível */
+.hero.is-static .hero__scene--2 { display: none; }
+.hero.is-static .hero__scene--1 { opacity: 1 !important; transform: none !important; }
 
 /* ==========================================================================
    SOBRE / 34 anos — banda duotone terracota (h/W ≈ 0.455). Texto à esquerda.

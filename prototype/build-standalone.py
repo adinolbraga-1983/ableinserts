@@ -32,20 +32,23 @@ def font_repl(m):
 css = re.sub(r'url\("(\.\./assets/fonts/[^"]+)"\)', font_repl, css)
 
 # ---- JS: converte módulos para globais ----
-hero = read("js/hero-webgl.js")
-hero = hero.replace('import * as THREE from "three";', "")
-hero = hero.replace("export function initHeroWebGL", "function initHeroWebGL")
-hero += "\nwindow.initHeroWebGL = initHeroWebGL;\n"
+hero = read("js/hero-scrub.js")
+hero = hero.replace("export function initHeroScrub", "function initHeroScrub")
+hero += "\nwindow.initHeroScrub = initHeroScrub;\n"
 
 main = read("js/main.js")
 main = main.replace(
-    'const { initHeroWebGL } = await import("./hero-webgl.js");',
-    "const initHeroWebGL = window.initHeroWebGL;")
+    'const { initHeroScrub } = await import("./hero-scrub.js");',
+    "const initHeroScrub = window.initHeroScrub;")
 
 gsap = read("assets/vendor/gsap.min.js")
 strig = read("assets/vendor/ScrollTrigger.min.js")
 lenis = read("assets/vendor/lenis.min.js")
-three = read("assets/vendor/three.umd.min.js")
+
+# ---- frames do hero embutidos (o scrub usa window.__HERO_FRAMES__) ----
+seq_dir = ROOT / "assets" / "img" / "hero-seq"
+seq_files = sorted(seq_dir.glob("*.jpg"))
+frames_js = "window.__HERO_FRAMES__=[" + ",".join('"' + data_uri(f) + '"' for f in seq_files) + "];"
 
 # ---- HTML base ----
 html = read("index.html")
@@ -58,11 +61,7 @@ html = re.sub(r'<link rel="stylesheet"[^>]*>\s*', "", html)
 # remove preloads de fonte/imagem (já embutidos)
 html = re.sub(r'<link rel="preload"[^>]*>\s*', "", html)
 
-# standalone universal: mantém só o mp4 (H.264 toca em qualquer navegador,
-# inclusive Safari). Remove a fonte WebM para não embutir os dois.
-html = re.sub(r'\s*<source src="assets/video/hero\.webm"[^>]*>', "", html)
-
-# substitui asset URLs (img/src, video source, poster, favicon) por data URIs
+# substitui asset URLs (img/src, poster, favicon) por data URIs
 def asset_repl(m):
     attr, rel = m.group(1), m.group(2)
     p = (ROOT / rel).resolve()
@@ -76,10 +75,10 @@ html = html.replace("</head>", f"<style>\n{css}\n</style>\n</head>")
 
 # injeta scripts antes de </body> (ordem importa)
 scripts = (
+    f"<script>{frames_js}</script>\n"
     f"<script>{gsap}</script>\n"
     f"<script>{strig}</script>\n"
     f"<script>{lenis}</script>\n"
-    f"<script>{three}</script>\n"
     f"<script>{hero}</script>\n"
     f"<script>{main}</script>\n"
 )

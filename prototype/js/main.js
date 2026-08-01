@@ -108,6 +108,23 @@ function initParallax() {
 }
 
 /* -------------------------------------------------------------------------
+   5b. Fluxo de conteúdo — saída sutil (as seções recuam ao sair pelo topo).
+   Combinado com os reveals de entrada, dá a sensação de entra-e-sai pedida.
+   ------------------------------------------------------------------------- */
+function initContentFlow() {
+  if (REDUCED || !window.ScrollTrigger) return;
+  const targets = gsap.utils.toArray(
+    ".metodo .container, .cases__head, .cases__track-wrap, .clientes .container, .contato .container, .sobre__inner"
+  );
+  targets.forEach((el) => {
+    gsap.to(el, {
+      opacity: 0.25, y: -40, ease: "none",
+      scrollTrigger: { trigger: el, start: "top 12%", end: "top top", scrub: true },
+    });
+  });
+}
+
+/* -------------------------------------------------------------------------
    6. Cases — grid 4-up no desktop (LayoutHOme); scroll horizontal nativo ≤1023.
    Enriquece o scroll nativo com roda vertical→horizontal e teclado (a11y).
    ------------------------------------------------------------------------- */
@@ -181,46 +198,27 @@ function initUI() {
 }
 
 /* -------------------------------------------------------------------------
-   8. Hero cinematográfico (WebGL só desktop; fallback CSS caso contrário)
+   8. Hero — vídeo full-screen dirigido pelo scroll (frame-sequence pin/scrub)
    ------------------------------------------------------------------------- */
 async function initHero() {
   const hero = document.querySelector(".hero");
-  const canvas = document.getElementById("hero-canvas");
-  const video = document.getElementById("hero-video");
+  if (!hero) return;
+  const MOBILE = window.matchMedia("(max-width: 900px)").matches;
 
-  // animação de entrada do título (independe de WebGL)
+  // Entrada do título (independe do scrub): as linhas sobem ao carregar.
   if (!REDUCED && window.gsap) {
     gsap.set(".hero__title .line > span", { yPercent: 110 });
-    gsap.to(".hero__title .line > span", {
-      yPercent: 0, duration: 1.1, ease: "expo.out", stagger: 0.09, delay: 0.25,
-      onComplete: () => document.querySelector("[data-hero-title]")?.classList.add("is-in"),
-    });
-    gsap.to(".hero__sub, .hero__meta", { opacity: 1, y: 0, duration: 0.9, ease: "expo.out", stagger: 0.1, delay: 0.7 });
-  } else {
-    document.querySelector("[data-hero-title]")?.classList.add("is-in");
+    gsap.set(".hero__sub", { opacity: 0, y: 16 });
+    gsap.to(".hero__title .line > span", { yPercent: 0, duration: 1.1, ease: "expo.out", stagger: 0.09, delay: 0.25 });
+    gsap.to(".hero__sub", { opacity: 1, y: 0, duration: 0.9, ease: "expo.out", delay: 0.7 });
   }
 
-  // WebGL apenas em desktop, com WebGL disponível e sem reduced-motion
-  if (!DESKTOP || REDUCED) { video.play?.().catch(() => {}); return; }
-
   try {
-    const { initHeroWebGL } = await import("./hero-webgl.js");
-    const gl = initHeroWebGL({
-      canvas, video,
-      onReady: () => hero.classList.add("webgl-on"),
-    });
-    if (!gl) { video.play?.().catch(() => {}); return; }
-
-    // scroll no hero → progress 0→1 (câmera desce, vídeo desacelera, duotone aprofunda)
-    if (window.ScrollTrigger) {
-      ScrollTrigger.create({
-        trigger: hero, start: "top top", end: "bottom top", scrub: true,
-        onUpdate: (self) => gl.setProgress(self.progress),
-      });
-    }
+    const { initHeroScrub } = await import("./hero-scrub.js");
+    initHeroScrub({ hero, reduced: REDUCED, mobile: MOBILE });
   } catch (err) {
-    console.warn("[hero] WebGL indisponível, usando fallback:", err);
-    video.play?.().catch(() => {});
+    console.warn("[hero] scrub indisponível:", err);
+    hero.classList.add("is-static", "seq-ready");
   }
 }
 
@@ -234,6 +232,7 @@ function boot() {
   initScrollSpy();
   initReveals();
   initParallax();
+  initContentFlow();
   initCasesGallery();
   initUI();
   initHero();

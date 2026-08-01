@@ -23,13 +23,9 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_script( 'gsap-scrolltrigger', $js . 'ScrollTrigger.min.js', array( 'gsap' ), '3.12.5', true );
 	wp_enqueue_script( 'lenis', $js . 'lenis.min.js', array(), '1.0.42', true );
 
-	// Three.js só onde há hero WebGL (front page). Carrega antes do hero-webgl.
-	if ( is_front_page() || is_page_template( 'templates/page-home.php' ) ) {
-		wp_enqueue_script( 'three', $js . 'three.umd.min.js', array(), '0.160.0', true );
-		wp_enqueue_script( 'marguerite-hero-webgl', $js . 'hero-webgl.js', array( 'three' ), $v, true );
-	}
-
-	wp_enqueue_script( 'marguerite-app', $js . 'app.js', array( 'gsap', 'gsap-scrolltrigger', 'lenis' ), $v, true );
+	// Hero dirigido pelo scroll (frame-sequence). Carrega antes do app.
+	wp_enqueue_script( 'marguerite-hero-scrub', $js . 'hero-scrub.js', array( 'gsap', 'gsap-scrolltrigger' ), $v, true );
+	wp_enqueue_script( 'marguerite-app', $js . 'app.js', array( 'gsap', 'gsap-scrolltrigger', 'lenis', 'marguerite-hero-scrub' ), $v, true );
 }, 20 );
 
 /**

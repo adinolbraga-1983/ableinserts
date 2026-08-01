@@ -1,6 +1,8 @@
 <?php
 /**
- * Bloco: Hero. Campos ACF com fallback para o conteúdo-base.
+ * Bloco: Hero — vídeo full-screen dirigido pelo scroll (frame-sequence).
+ * O título é dividido em duas cenas: as linhas normais (cena 1) e a frase
+ * marcada com [mark]…[/mark] (cena 2, o "clímax"). Campos com fallback.
  *
  * @package Marguerite
  */
@@ -11,41 +13,53 @@ $headline = get_field( 'headline' ) ?: "Experiências\nmemoráveis não\nacontec
 $sub      = get_field( 'sub' ) ?: 'Agência boutique de eventos e marketing de experiência.';
 $bc1      = get_field( 'bc1' ) ?: 'Início';
 $bc2      = get_field( 'bc2' ) ?: 'Como conduzimos';
-$lente    = get_field( 'lente_roxa' );
-$lente    = ( '' === $lente || null === $lente ) ? true : (bool) $lente;
 
-$video    = get_field( 'video' );
-$video    = $video ?: marguerite_asset( 'video/hero.mp4' );
-$webm     = get_field( 'video_webm' );
-$webm     = $webm ?: marguerite_asset( 'video/hero.webm' );
-$poster   = get_field( 'poster' );
-$poster_url = is_array( $poster ) ? ( $poster['url'] ?? '' ) : $poster;
-$poster_url = $poster_url ?: marguerite_asset( 'img/hero-poster.jpg' );
+// Sequência de frames do hero (fallback: a que acompanha o tema).
+$seq_dir = marguerite_asset( 'img/hero-seq/' );
+$frames  = 96;
 
-// Título em linhas (cada uma anima separadamente).
+// Divide o título: linhas sem [mark] → cena 1; a linha com [mark] → cena 2.
 $lines = preg_split( '/\r\n|\r|\n/', trim( (string) $headline ) );
-$title_html = '';
+$scene1_lines = array();
+$scene2 = '';
 foreach ( $lines as $line ) {
+	if ( strpos( $line, '[mark]' ) !== false ) {
+		$scene2 = $line;
+	} else {
+		$scene1_lines[] = $line;
+	}
+}
+if ( '' === $scene2 && $scene1_lines ) {
+	$scene2 = '[mark]' . array_pop( $scene1_lines ) . '[/mark]';
+}
+
+$title_html = '';
+foreach ( $scene1_lines as $line ) {
 	$title_html .= '<span class="line"><span>' . marguerite_markup_text( $line ) . '</span></span>';
 }
 
 $block_id = ! empty( $block['anchor'] ) ? esc_attr( $block['anchor'] ) : 'hero';
 ?>
-<section class="hero<?php echo $lente ? '' : ' no-lente'; ?>" id="<?php echo $block_id; ?>" aria-label="Apresentação">
-	<div class="hero__stage" aria-hidden="true">
-		<canvas class="hero__canvas" id="hero-canvas"></canvas>
-		<video class="hero__media" id="hero-video" playsinline muted loop autoplay preload="metadata" poster="<?php echo esc_url( $poster_url ); ?>">
-			<?php if ( $webm ) : ?><source src="<?php echo esc_url( $webm ); ?>" type="video/webm" /><?php endif; ?>
-			<source src="<?php echo esc_url( $video ); ?>" type="video/mp4" />
-		</video>
-		<div class="hero__duotone"></div>
-		<div class="hero__tint"></div>
-	</div>
-	<div class="hero__content">
-		<h1 class="hero__title" data-hero-title data-marker-draw><?php echo $title_html; // phpcs:ignore ?></h1>
-		<p class="hero__sub" data-reveal><?php echo esc_html( $sub ); ?></p>
-		<div class="hero__meta" data-reveal>
-			<span><?php echo esc_html( $bc1 ); ?></span><span aria-hidden="true">·</span><span><?php echo esc_html( $bc2 ); ?></span>
+<section class="hero" id="<?php echo $block_id; ?>" aria-label="Apresentação"
+         data-hero-seq="<?php echo esc_url( $seq_dir ); ?>" data-hero-frames="<?php echo (int) $frames; ?>">
+	<div class="hero__pin">
+		<canvas class="hero__canvas" id="hero-canvas" aria-hidden="true"></canvas>
+		<img class="hero__poster" src="<?php echo esc_url( $seq_dir . '000.jpg' ); ?>" alt="" aria-hidden="true" fetchpriority="high" />
+		<div class="hero__scrim" aria-hidden="true"></div>
+
+		<div class="hero__scenes">
+			<div class="hero__scene hero__scene--1">
+				<h1 class="hero__title" data-hero-title><?php echo $title_html; // phpcs:ignore ?></h1>
+				<p class="hero__sub"><?php echo esc_html( $sub ); ?></p>
+			</div>
+			<div class="hero__scene hero__scene--2" aria-hidden="true">
+				<p class="hero__big"><?php echo marguerite_markup_text( $scene2 ); // phpcs:ignore ?></p>
+			</div>
 		</div>
+
+		<div class="hero__meta" aria-hidden="true">
+			<span><?php echo esc_html( $bc1 ); ?></span><span>·</span><span><?php echo esc_html( $bc2 ); ?></span>
+		</div>
+		<div class="hero__progress" aria-hidden="true"><span>Role</span><span class="track"><i></i></span></div>
 	</div>
 </section>

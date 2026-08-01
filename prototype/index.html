@@ -85,30 +85,31 @@
   <main id="conteudo">
 
     <!-- ===================== HERO ===================== -->
-    <section class="hero" id="hero" aria-label="Apresentação">
-      <div class="hero__stage" aria-hidden="true">
-        <canvas class="hero__canvas" id="hero-canvas"></canvas>
-        <!-- Fallback (sem WebGL / reduced-motion): vídeo + duotone CSS = lente roxa -->
-        <video class="hero__media" id="hero-video" playsinline muted loop autoplay preload="metadata"
-               poster="assets/img/hero-poster.jpg">
-          <source src="assets/video/hero.webm" type="video/webm" />
-          <source src="assets/video/hero.mp4" type="video/mp4" />
-        </video>
-        <div class="hero__duotone"></div>
-        <div class="hero__tint"></div>
-      </div>
+    <section class="hero" id="hero" aria-label="Apresentação"
+             data-hero-seq="assets/img/hero-seq/" data-hero-frames="96">
+      <div class="hero__pin">
+        <canvas class="hero__canvas" id="hero-canvas" aria-hidden="true"></canvas>
+        <img class="hero__poster" src="assets/img/hero-seq/000.jpg" alt="" aria-hidden="true" fetchpriority="high" />
+        <div class="hero__scrim" aria-hidden="true"></div>
 
-      <div class="hero__content">
-        <h1 class="hero__title" data-hero-title data-marker-draw>
-          <span class="line"><span>Experiências</span></span>
-          <span class="line"><span>memoráveis não</span></span>
-          <span class="line"><span>acontecem.</span></span>
-          <span class="line"><span><em class="marker">São conduzidas.</em></span></span>
-        </h1>
-        <p class="hero__sub" data-reveal>Agência boutique de eventos e marketing de experiência.</p>
-        <div class="hero__meta" data-reveal>
-          <span>Início</span><span aria-hidden="true">·</span><span>Como conduzimos</span>
+        <div class="hero__scenes">
+          <div class="hero__scene hero__scene--1">
+            <h1 class="hero__title" data-hero-title>
+              <span class="line"><span>Experiências</span></span>
+              <span class="line"><span>memoráveis não</span></span>
+              <span class="line"><span>acontecem.</span></span>
+            </h1>
+            <p class="hero__sub">Agência boutique de eventos e marketing de experiência.</p>
+          </div>
+          <div class="hero__scene hero__scene--2" aria-hidden="true">
+            <p class="hero__big"><em class="marker">São conduzidas.</em></p>
+          </div>
         </div>
+
+        <div class="hero__meta" aria-hidden="true">
+          <span>Início</span><span>·</span><span>Como conduzimos</span>
+        </div>
+        <div class="hero__progress" aria-hidden="true"><span>Role</span><span class="track"><i></i></span></div>
       </div>
     </section>
 
