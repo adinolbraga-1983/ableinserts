@@ -1,0 +1,11 @@
+{
+  "name": "acf/contato",
+  "title": "Contato",
+  "description": "Formulário centralizado (Nome, Empresa, WhatsApp) com título realçado.",
+  "category": "marguerite",
+  "icon": "email",
+  "keywords": ["contato", "formulário", "convite"],
+  "apiVersion": 2,
+  "acf": { "mode": "preview", "renderTemplate": "render.php" },
+  "supports": { "align": ["full"], "anchor": true, "mode": false, "jsx": true }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "acf/sobre",
+  "title": "Sobre / 34 anos",
+  "description": "Banda com retrato duotone terracota e texto institucional.",
+  "category": "marguerite",
+  "icon": "id",
+  "keywords": ["sobre", "quem somos"],
+  "apiVersion": 2,
+  "acf": { "mode": "preview", "renderTemplate": "render.php" },
+  "supports": { "align": ["full"], "anchor": true, "mode": false, "jsx": true }
+}

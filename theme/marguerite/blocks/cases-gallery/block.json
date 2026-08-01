@@ -1,0 +1,11 @@
+{
+  "name": "acf/cases-gallery",
+  "title": "Cases (galeria)",
+  "description": "Galeria 4-up (2:3) puxando os Cases; scroll horizontal no mobile.",
+  "category": "marguerite",
+  "icon": "format-gallery",
+  "keywords": ["cases", "portfólio", "galeria"],
+  "apiVersion": 2,
+  "acf": { "mode": "preview", "renderTemplate": "render.php" },
+  "supports": { "align": ["full"], "anchor": true, "mode": false, "jsx": true }
+}
