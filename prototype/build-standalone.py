@@ -58,8 +58,9 @@ html = re.sub(r'<link rel="stylesheet"[^>]*>\s*', "", html)
 # remove preloads de fonte/imagem (já embutidos)
 html = re.sub(r'<link rel="preload"[^>]*>\s*', "", html)
 
-# standalone leve: mantém só o WebM no hero (evita embutir mp4 + webm).
-html = re.sub(r'\s*<source src="assets/video/hero\.mp4"[^>]*>', "", html)
+# standalone universal: mantém só o mp4 (H.264 toca em qualquer navegador,
+# inclusive Safari). Remove a fonte WebM para não embutir os dois.
+html = re.sub(r'\s*<source src="assets/video/hero\.webm"[^>]*>', "", html)
 
 # substitui asset URLs (img/src, video source, poster, favicon) por data URIs
 def asset_repl(m):
