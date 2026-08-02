@@ -1,7 +1,8 @@
 <?php
 /**
- * Front page. Renderiza o conteúdo (blocos) da página inicial; se estiver
- * vazia, monta a home padrão com os blocos Marguerite (que usam o conteúdo-base).
+ * Front page. Se a página inicial tiver conteúdo (blocos do editor), renderiza-o;
+ * caso contrário, monta a home padrão com as seções Marguerite (conteúdo-base).
+ * Funciona com ou sem ACF Pro.
  *
  * @package Marguerite
  */
@@ -23,16 +24,10 @@ if ( $has_content ) {
 		the_content();
 	}
 } else {
-	// Home padrão: sequência de blocos (cada um cai para o conteúdo-base).
-	$default = implode( "\n", array(
-		'<!-- wp:acf/hero {"name":"acf/hero","mode":"preview"} /-->',
-		'<!-- wp:acf/sobre {"name":"acf/sobre","mode":"preview"} /-->',
-		'<!-- wp:acf/metodologia {"name":"acf/metodologia","mode":"preview"} /-->',
-		'<!-- wp:acf/cases-gallery {"name":"acf/cases-gallery","mode":"preview"} /-->',
-		'<!-- wp:acf/clientes {"name":"acf/clientes","mode":"preview"} /-->',
-		'<!-- wp:acf/contato {"name":"acf/contato","mode":"preview"} /-->',
-	) );
-	echo do_blocks( $default ); // phpcs:ignore WordPress.Security.EscapeOutput
+	// Home padrão — cada seção cai para o conteúdo-base.
+	foreach ( array( 'hero', 'sobre', 'metodologia', 'cases-gallery', 'clientes', 'contato' ) as $section ) {
+		marguerite_render_section( $section );
+	}
 }
 
 get_footer();

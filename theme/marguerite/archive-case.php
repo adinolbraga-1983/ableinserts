@@ -34,5 +34,5 @@ get_header();
 	</div>
 </section>
 <?php
-echo do_blocks( '<!-- wp:acf/clientes {"name":"acf/clientes","mode":"preview"} /-->' ); // phpcs:ignore
+marguerite_render_section( 'clientes' );
 get_footer();

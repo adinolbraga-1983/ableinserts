@@ -7,14 +7,14 @@ Fase 3 num tema WordPress com **blocos Gutenberg via ACF Pro**, **CPTs** e
 ## Requisitos
 - WordPress 6.4+
 - PHP 8.0+
-- **Advanced Custom Fields PRO** (obrigatório — provê os campos e os blocos)
+- **Advanced Custom Fields PRO** — **opcional**. O tema funciona sem ele (mostra o
+  conteúdo-base). O ACF Pro serve para **editar** textos/imagens/vídeos pelo painel.
 
-## Instalação
-1. Copie a pasta `marguerite/` para `wp-content/themes/` (ou envie o zip em *Aparência → Temas → Adicionar novo → Enviar tema*).
-2. Instale e ative o **ACF Pro**.
-3. Ative o tema **Marguerite**.
-4. Em *Configurações → Leitura*, defina uma **Página inicial estática** (crie uma página "Home" vazia e selecione-a). A home já aparece completa com o conteúdo-base, mesmo com a página vazia.
-5. (Opcional) Faça upload dos logos oficiais em **Marguerite** (menu do admin) e monte o menu em *Aparência → Menus* (posição "Navegação principal").
+## Instalação (rápida)
+1. *Aparência → Temas → Adicionar novo → Enviar tema* e envie o zip **`marguerite.zip`** (ou extraia a pasta `marguerite/` em `wp-content/themes/`).
+2. **Ative** o tema **Marguerite**. **Pronto — a home já aparece completa e correta**, mesmo sem ACF e sem configurar mais nada (o `front-page.php` monta as seções com o conteúdo-base).
+3. (Opcional) Para **editar** pelo painel: instale o **ACF Pro**, depois use o menu *Marguerite* (logos/contato/SEO) e edite a página inicial inserindo os blocos "Marguerite" (ou o padrão *Marguerite — Home completa*).
+4. (Opcional) Monte o menu em *Aparência → Menus* (posição "Navegação principal") e envie os logos oficiais nas opções.
 
 ## Como funciona
 - **Blocos** (categoria "Marguerite"), um por seção: `Hero`, `Sobre / 34 anos`, `Metodologia`, `Cases (galeria)`, `Clientes`, `Contato`. Todos editáveis e **reordenáveis** arrastando no editor.

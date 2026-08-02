@@ -60,6 +60,20 @@ function marguerite_option( $name, $default = '' ) {
 }
 
 /**
+ * Renderiza uma seção (bloco) diretamente pelo seu render.php, com o
+ * conteúdo-base como fallback. Funciona com ou sem ACF ativo.
+ *
+ * @param string $name Nome da pasta em blocks/.
+ */
+function marguerite_render_section( $name ) {
+	$file = MARGUERITE_DIR . '/blocks/' . $name . '/render.php';
+	if ( file_exists( $file ) ) {
+		$block = array(); // sem contexto de bloco → usa os defaults
+		include $file;
+	}
+}
+
+/**
  * Marca de imagem responsiva a partir de um array de imagem do ACF.
  *
  * @param array|int $image ACF image (array) ou attachment ID.

@@ -18,7 +18,12 @@ add_filter( 'block_categories_all', function ( $cats ) {
 } );
 
 // Registra cada bloco a partir do seu block.json (ACF 6+ lê o campo "acf").
+// Só quando o ACF Pro está ativo — sem ele, as seções são renderizadas
+// diretamente pelos templates (marguerite_render_section), sem editor.
 add_action( 'init', function () {
+	if ( ! function_exists( 'acf_register_block_type' ) && ! function_exists( 'acf_add_local_field_group' ) ) {
+		return;
+	}
 	$blocks = array( 'hero', 'sobre', 'metodologia', 'cases-gallery', 'clientes', 'contato' );
 	foreach ( $blocks as $block ) {
 		$dir = MARGUERITE_DIR . '/blocks/' . $block;

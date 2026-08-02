@@ -79,9 +79,9 @@ while ( have_posts() ) :
 	</article>
 
 	<?php
-	// Reaproveita blocos globais: outros cases + clientes.
-	echo do_blocks( '<!-- wp:acf/cases-gallery {"name":"acf/cases-gallery","mode":"preview"} /-->' ); // phpcs:ignore
-	echo do_blocks( '<!-- wp:acf/clientes {"name":"acf/clientes","mode":"preview"} /-->' ); // phpcs:ignore
+	// Reaproveita seções globais: outros cases + clientes.
+	marguerite_render_section( 'cases-gallery' );
+	marguerite_render_section( 'clientes' );
 
 endwhile;
 
