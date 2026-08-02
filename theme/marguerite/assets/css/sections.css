@@ -219,7 +219,8 @@
    ========================================================================== */
 @media (max-width: 1023px) {
   .metodo__grid, .clientes__metrics { grid-template-columns: repeat(2, 1fr); }
-  .hero { height: clamp(520px, 82vw, 760px); }
+  /* Hero: no mobile é estático (sem pin); a altura vem do .hero__pin (100svh). */
+  .hero__pin { height: 100svh; height: 100dvh; }
   .sobre { height: auto; padding-block: clamp(72px, 12vw, 140px); }
   .sobre__img { object-position: 65% center; }
   /* Cases viram scroll horizontal com snap */
@@ -234,6 +235,8 @@
   .metodo__grid { grid-template-columns: 1fr 1fr; }
   .clientes__metrics { grid-template-columns: 1fr 1fr; }
   .hero__title { max-width: 100%; }
+  .hero__progress { display: none; } /* estático no mobile: sem barra de scrub */
+  .hero__scenes { padding-bottom: clamp(72px, 14vh, 130px); }
   .cases__head { flex-direction: column; align-items: start; }
   .case-card { flex-basis: 78vw; }
   .site-footer .container { flex-direction: column; align-items: start; }

@@ -113,13 +113,15 @@ function initParallax() {
    ------------------------------------------------------------------------- */
 function initContentFlow() {
   if (REDUCED || !window.ScrollTrigger) return;
+  // Só elementos de topo (eyebrow + título) recuam/desvanecem ao sair pelo topo —
+  // nunca o corpo (form, métricas, grid), que permanece legível enquanto visível.
   const targets = gsap.utils.toArray(
-    ".metodo .container, .cases__head, .cases__track-wrap, .clientes .container, .contato .container, .sobre__inner"
+    ".metodo__head, .cases__head, .sobre__body, .clientes__manifesto, .contato__title"
   );
   targets.forEach((el) => {
     gsap.to(el, {
-      opacity: 0.25, y: -40, ease: "none",
-      scrollTrigger: { trigger: el, start: "top 12%", end: "top top", scrub: true },
+      opacity: 0.5, y: -20, ease: "none",
+      scrollTrigger: { trigger: el, start: "top 6%", end: "top -12%", scrub: true },
     });
   });
 }
