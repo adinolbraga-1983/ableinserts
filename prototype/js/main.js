@@ -7,7 +7,6 @@ const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const DESKTOP = window.matchMedia("(min-width: 1024px)").matches;
 
 document.documentElement.classList.add("is-ready");
-document.getElementById("year").textContent = new Date().getFullYear();
 
 /* -------------------------------------------------------------------------
    1. Smooth scroll (Lenis) + ponte com ScrollTrigger
@@ -22,26 +21,13 @@ function initSmoothScroll() {
 }
 
 /* -------------------------------------------------------------------------
-   2. Header: sólido ao descolar + troca de cor sobre seções escuras
+   2. Header: sombra sutil ao descolar (fundo é sempre sólido/claro)
    ------------------------------------------------------------------------- */
 function initHeader() {
   const header = document.querySelector(".site-header");
   const onScroll = () => header.classList.toggle("is-stuck", window.scrollY > 40);
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
-
-  if (!window.ScrollTrigger) return;
-  // "data-over-dark" liga/desliga conforme a seção sob o header é clara/escura
-  document.querySelectorAll("[data-over-dark], .hero, .sobre, .clientes, .site-footer").forEach(() => {});
-  const darkZones = [".hero", ".sobre", ".section--invert"];
-  darkZones.forEach((sel) => {
-    document.querySelectorAll(sel).forEach((el) => {
-      ScrollTrigger.create({
-        trigger: el, start: "top 56px", end: "bottom 56px",
-        onToggle: (self) => header.setAttribute("data-over-dark", self.isActive ? "true" : "false"),
-      });
-    });
-  });
 }
 
 /* -------------------------------------------------------------------------

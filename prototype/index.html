@@ -54,10 +54,13 @@
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
 
   <!-- ===================== HEADER ===================== -->
-  <header class="site-header" data-over-dark="true" id="topo">
+  <header class="site-header" id="topo">
     <a class="brand" href="#topo" aria-label="Marguerite — Agência de Experiência, início">
       <img class="brand__icon" src="assets/img/marguerite-icon.svg" alt="" aria-hidden="true" width="30" height="30" />
-      <img class="brand__wordmark" src="assets/img/marguerite-wordmark.svg" alt="Marguerite — Agência de Experiência" />
+      <span class="brand__text">
+        <img class="brand__wordmark" src="assets/img/marguerite-wordmark.svg" alt="Marguerite" />
+        <span class="brand__tagline">Agência de Experiência</span>
+      </span>
     </a>
 
     <nav class="nav" aria-label="Navegação principal">
@@ -98,18 +101,13 @@
               <span class="line"><span>Experiências</span></span>
               <span class="line"><span>memoráveis não</span></span>
               <span class="line"><span>acontecem.</span></span>
+              <span class="line"><span class="marker">São Conduzidas</span></span>
             </h1>
-            <p class="hero__sub">Agência boutique de eventos e marketing de experiência.</p>
-          </div>
-          <div class="hero__scene hero__scene--2" aria-hidden="true">
-            <p class="hero__big"><em class="marker">São conduzidas.</em></p>
+            <p class="hero__sub">Agência boutique de eventos<br />e marketing de experiência.</p>
           </div>
         </div>
 
-        <div class="hero__meta" aria-hidden="true">
-          <span>Início</span><span>·</span><span>Como conduzimos</span>
-        </div>
-        <div class="hero__progress" aria-hidden="true"><span>Role</span><span class="track"><i></i></span></div>
+        <p class="hero__cue" aria-hidden="true">Role — a cena se monta</p>
       </div>
     </section>
 
@@ -172,18 +170,18 @@
             </a>
             <div class="case-card__cap">
               <p class="case-card__name">Convenção SKY 2023</p>
-              <p class="case-card__meta">300 pessoas · Jequitimar · Guarujá</p>
+              <p class="case-card__meta">2100 pessoas · Jequitimar – Guarujá</p>
             </div>
           </li>
           <li class="case-card">
-            <a class="case-card__media" href="#" aria-label="Abrir case Tegra Guest">
+            <a class="case-card__media" href="#" aria-label="Abrir case Convenção SKY 2025">
               <img class="case-card__img" src="assets/img/case-tegra.jpg" alt="Equipe de produção operando um evento" loading="lazy" decoding="async" />
               <span class="case-card__overlay"></span>
               <span class="case-card__play" aria-hidden="true">▶</span>
             </a>
             <div class="case-card__cap">
-              <p class="case-card__name">Tegra Guest</p>
-              <p class="case-card__meta">980 pessoas · Iberostar · Salvador</p>
+              <p class="case-card__name">Convenção SKY 2025</p>
+              <p class="case-card__meta">980 pessoas · Iberostar – Salvador</p>
             </div>
           </li>
           <li class="case-card">
@@ -194,18 +192,18 @@
             </a>
             <div class="case-card__cap">
               <p class="case-card__name">Convenção SKY 2025</p>
-              <p class="case-card__meta">980 pessoas · Iberostar · Salvador</p>
+              <p class="case-card__meta">980 pessoas · Iberostar – Salvador</p>
             </div>
           </li>
           <li class="case-card">
-            <a class="case-card__media" href="#" aria-label="Abrir case Palco Principal">
+            <a class="case-card__media" href="#" aria-label="Abrir case Convenção SKY 2025">
               <img class="case-card__img" src="assets/img/case-stage.jpg" alt="Palestrante no centro de um palco cenográfico" loading="lazy" decoding="async" />
               <span class="case-card__overlay"></span>
               <span class="case-card__play" aria-hidden="true">▶</span>
             </a>
             <div class="case-card__cap">
-              <p class="case-card__name">Palco Principal</p>
-              <p class="case-card__meta">980 pessoas · Iberostar · Salvador</p>
+              <p class="case-card__name">Convenção SKY 2025</p>
+              <p class="case-card__meta">980 pessoas · Iberostar – Salvador</p>
             </div>
           </li>
         </ul>
@@ -215,7 +213,7 @@
     <!-- ===================== CLIENTES ===================== -->
     <section class="section section--invert clientes" id="clientes" aria-labelledby="clientes-title">
       <div class="container">
-        <h2 class="eyebrow" id="clientes-title" style="display:block;text-align:center" data-reveal>Clientes</h2>
+        <h2 class="clientes__title" id="clientes-title" data-reveal>Clientes</h2>
         <div class="clientes__marquee" data-reveal role="list" aria-label="Nossos clientes">
           <div class="clientes__track">
             <img class="clientes__logo clientes__logo--tegra" src="assets/img/tegra.png" alt="Tegra Guest" role="listitem" loading="lazy" />
@@ -232,7 +230,7 @@
             <img class="clientes__logo clientes__logo--sky" src="assets/img/sky.svg" alt="" aria-hidden="true" loading="lazy" />
           </div>
         </div>
-        <p class="clientes__manifesto" data-reveal>Criamos experiências memoráveis que geram <em class="marker">conexões reais</em> entre marcas e clientes.</p>
+        <p class="clientes__manifesto" data-reveal><span class="clientes__manifesto-lead">Criamos experiências memoráveis que geram</span> <strong>conexões reais entre marcas e clientes.</strong></p>
         <ol class="clientes__metrics">
           <li class="clientes__metric"><span class="index-num">01</span><h3>Estratégia Atingida</h3></li>
           <li class="clientes__metric"><span class="index-num">02</span><h3>Confiança e Tranquilidade</h3></li>
@@ -243,10 +241,10 @@
     </section>
 
     <!-- ===================== CONTATO ===================== -->
-    <section class="section section--alt contato" id="contato" aria-labelledby="contato-title">
+    <section class="section contato" id="contato" aria-labelledby="contato-title">
       <div class="container">
         <span class="eyebrow" data-reveal>Convite</span>
-        <h2 class="contato__title" id="contato-title" data-reveal data-marker-draw>Vamos conversar sobre<br /><em class="marker">o seu próximo projeto</em></h2>
+        <h2 class="contato__title" id="contato-title" data-reveal data-marker-draw>Vamos conversar sobre<br /><span class="marker">o seu próximo projeto</span></h2>
         <form class="contato__form" id="contato-form" novalidate data-reveal>
           <div class="field">
             <label for="nome">Nome</label>
@@ -272,15 +270,17 @@
     <div class="container">
       <a class="brand" href="#topo" aria-label="Marguerite — Agência de Experiência">
         <img class="footer__brand-icon" src="assets/img/marguerite-icon-white.svg" alt="" aria-hidden="true" width="30" height="30" />
-        <img class="footer__wordmark" src="assets/img/marguerite-wordmark-white.svg" alt="Marguerite — Agência de Experiência" />
+        <span class="brand__text">
+          <img class="footer__wordmark" src="assets/img/marguerite-wordmark-white.svg" alt="Marguerite" />
+          <span class="brand__tagline">Agência de Experiência</span>
+        </span>
       </a>
       <nav class="footer__links" aria-label="Rodapé">
-        <a href="mailto:contato@margueriteexperience.com.br">contato@margueriteexperience.com.br</a>
-        <a href="#">São Paulo / SP</a>
+        <a href="mailto:cintia@margueriteexperience.com.br">cintia@margueriteexperience.com.br</a>
+        <a href="#">São Paulo · SP</a>
         <a href="#">LinkedIn</a>
-        <a href="#">Política de Privacidade</a>
+        <span>Todos os Direitos Reservados | Agência Marguerite</span>
       </nav>
-      <small>© <span id="year"></span> Marguerite. Todos os direitos reservados.</small>
     </div>
   </footer>
 

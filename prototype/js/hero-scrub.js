@@ -2,7 +2,7 @@
    Hero scrub — vídeo full-screen dirigido pelo scroll.
    Sequência de frames (lente roxa embutida) desenhada num canvas; ScrollTrigger
    fixa (pin) o hero e "scrub" mapeia o progresso do scroll → frame. Rolar pra
-   baixo avança; pra cima, reverte. Os textos entram e saem no caminho.
+   baixo avança; pra cima, reverte. O texto fica fixo e legível o tempo todo.
    ---------------------------------------------------------------------------
    initHeroScrub({ hero, reduced, mobile }) — usa gsap/ScrollTrigger globais.
    ========================================================================== */
@@ -14,10 +14,6 @@ export function initHeroScrub({ hero, reduced, mobile }) {
   const base = hero.dataset.heroSeq;
   const N = embedded ? embedded.length : (parseInt(hero.dataset.heroFrames, 10) || 96);
   const srcOf = (i) => (embedded ? embedded[i] : base + pad(i) + '.jpg');
-  const scene1 = hero.querySelector('.hero__scene--1');
-  const scene2 = hero.querySelector('.hero__scene--2');
-  const bar = hero.querySelector('.hero__progress .track');
-
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const pad = (n) => String(n).padStart(3, '0');
 
@@ -56,22 +52,6 @@ export function initHeroScrub({ hero, reduced, mobile }) {
 
   let current = 0;
 
-  // ---- textos: entrada/saída em função do progresso ----
-  function updateText(p) {
-    // Cena 1 sai (0.10 → 0.30)
-    const e1 = clamp((p - 0.10) / 0.20);
-    scene1.style.opacity = String(1 - e1);
-    scene1.style.transform = `translateY(${-e1 * 8}vh)`;
-    scene1.style.filter = `blur(${e1 * 8}px)`;
-    // Cena 2 entra (0.56 → 0.72) e sai (0.86 → 0.98)
-    const in2 = clamp((p - 0.56) / 0.16);
-    const out2 = clamp((p - 0.86) / 0.12);
-    scene2.style.opacity = String(in2 * (1 - out2));
-    scene2.style.transform = `translateY(${(1 - in2) * 8 - out2 * 8}vh)`;
-    scene2.style.filter = `blur(${((1 - in2) + out2) * 8}px)`;
-    if (bar) bar.style.setProperty('--p', (p * 100).toFixed(1) + '%');
-  }
-
   // ---- modo estático (reduced-motion / mobile): sem pin, 1 tela ----
   if (reduced || mobile || typeof ScrollTrigger === 'undefined') {
     hero.classList.add('is-static');
@@ -80,11 +60,11 @@ export function initHeroScrub({ hero, reduced, mobile }) {
     return { destroy() {} };
   }
 
-  // ---- pin + scrub ----
+  // ---- pin + scrub (só o fundo; o texto fica fixo e legível) ----
   const st = ScrollTrigger.create({
     trigger: hero,
     start: 'top top',
-    end: () => '+=' + Math.round(window.innerHeight * 2.6),
+    end: () => '+=' + Math.round(window.innerHeight * 1.4),
     pin: hero.querySelector('.hero__pin'),
     pinSpacing: true,
     anticipatePin: 1,
@@ -94,7 +74,6 @@ export function initHeroScrub({ hero, reduced, mobile }) {
       const p = self.progress;
       const fi = Math.min(N - 1, Math.max(0, Math.round(p * (N - 1))));
       if (fi !== current) { current = fi; draw(fi); }
-      updateText(p);
     },
   });
 
