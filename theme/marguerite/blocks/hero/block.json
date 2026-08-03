@@ -1,0 +1,11 @@
+{
+  "name": "acf/hero",
+  "title": "Hero cinematográfico",
+  "description": "Hero em banda com vídeo (lente roxa/WebGL) e título com realce.",
+  "category": "marguerite",
+  "icon": "cover-image",
+  "keywords": ["hero", "capa", "marguerite"],
+  "apiVersion": 2,
+  "acf": { "mode": "preview", "renderTemplate": "render.php" },
+  "supports": { "align": ["full"], "anchor": true, "mode": false, "jsx": true }
+}

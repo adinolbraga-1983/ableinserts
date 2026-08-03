@@ -1,0 +1,4 @@
+/* Estilos do editor: garante que a fonte e as cores dos blocos apareçam no admin.
+   Os blocos ACF já carregam tokens/fonts/sections via enqueue_block_editor_assets. */
+.editor-styles-wrapper { font-family: "Poppins", system-ui, sans-serif; background: #FDFDFD; }
+.editor-styles-wrapper .wp-block { max-width: none; }

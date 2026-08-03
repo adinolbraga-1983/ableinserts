@@ -1,0 +1,14 @@
+/*
+Theme Name: Marguerite
+Theme URI: https://marguerite.com.br
+Author: Dangebel Maison
+Description: Tema premium da Marguerite — Agência de Experiência. Hero cinematográfico (WebGL/lente roxa), blocos Gutenberg via ACF Pro, CPTs de Cases/Clientes/Depoimentos, SEO técnico. Todo conteúdo é editável — nada hardcoded.
+Version: 1.0.0
+Requires at least: 6.4
+Requires PHP: 8.0
+License: GPL-2.0-or-later
+Text Domain: marguerite
+*/
+
+/* Os estilos reais ficam em assets/css/ (tokens, fonts, base, sections),
+   enfileirados por inc/enqueue.php. Este arquivo é só o cabeçalho do tema. */

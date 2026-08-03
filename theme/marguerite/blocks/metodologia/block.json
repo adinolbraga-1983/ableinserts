@@ -1,0 +1,11 @@
+{
+  "name": "acf/metodologia",
+  "title": "Metodologia",
+  "description": "Grid 01–04 com números terracota e texto de fechamento.",
+  "category": "marguerite",
+  "icon": "list-view",
+  "keywords": ["metodologia", "processo", "passos"],
+  "apiVersion": 2,
+  "acf": { "mode": "preview", "renderTemplate": "render.php" },
+  "supports": { "align": ["full"], "anchor": true, "mode": false, "jsx": true }
+}
