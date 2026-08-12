@@ -17,9 +17,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</span>
 			</a>
 
+			<?php
+			$marguerite_footer_email     = get_theme_mod( 'marguerite_footer_email', 'cintia@margueriteexperience.com.br' );
+			$marguerite_footer_endereco  = get_theme_mod( 'marguerite_footer_endereco', 'São Paulo · SP' );
+			$marguerite_footer_copyright = str_replace(
+				'%ano%',
+				date_i18n( 'Y' ),
+				get_theme_mod( 'marguerite_footer_copyright', '© %ano% Agência Marguerite. Todos os direitos reservados.' )
+			);
+			?>
 			<div class="site-footer__meta">
-				<p>São Paulo · SP | <a href="mailto:cintia@margueriteexperience.com.br">cintia@margueriteexperience.com.br</a></p>
-				<p>&copy; <?php echo esc_html( date_i18n( 'Y' ) ); ?> Agência Marguerite. Todos os direitos reservados.</p>
+				<p><?php echo esc_html( $marguerite_footer_endereco ); ?> | <a href="mailto:<?php echo esc_attr( $marguerite_footer_email ); ?>"><?php echo esc_html( $marguerite_footer_email ); ?></a></p>
+				<p><?php echo esc_html( $marguerite_footer_copyright ); ?></p>
 			</div>
 		</div>
 	</footer>

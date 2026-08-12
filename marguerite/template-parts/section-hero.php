@@ -17,16 +17,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div class="hero__content container">
 		<div class="hero__text">
-			<p class="eyebrow" data-reveal>Agência Boutique</p>
+			<p class="eyebrow" data-reveal><?php echo esc_html( get_theme_mod( 'marguerite_hero_eyebrow', 'Agência Boutique' ) ); ?></p>
 			<h1 class="hero__title" data-reveal>
-				Experiências memoráveis são planejadas, desenhadas e <span class="text-accent-lavender">conduzidas</span>.
+				<?php echo marguerite_richtext_accent( get_theme_mod( 'marguerite_hero_heading', 'Experiências memoráveis são planejadas, desenhadas e **conduzidas**.' ) ); ?>
 			</h1>
 			<p class="hero__lead" data-reveal>
-				Da primeira conversa ao desmonte, cada projeto é conduzido pessoalmente pela agência.
-				<strong>Sem repasse. Sem tradução perdida no caminho.</strong>
+				<?php echo marguerite_richtext_bold( get_theme_mod( 'marguerite_hero_lead', 'Da primeira conversa ao desmonte, cada projeto é conduzido pessoalmente pela agência. **Sem repasse. Sem tradução perdida no caminho.**' ) ); ?>
 			</p>
 			<div class="hero__actions" data-reveal>
-				<a class="btn btn--pill btn--lavender" href="#contato">Agende uma Reunião</a>
+				<a class="btn btn--pill btn--lavender" href="<?php echo esc_url( get_theme_mod( 'marguerite_hero_btn_link', '#contato' ) ); ?>">
+					<?php echo esc_html( get_theme_mod( 'marguerite_hero_btn_label', 'Agende uma Reunião' ) ); ?>
+				</a>
 			</div>
 		</div>
 	</div>

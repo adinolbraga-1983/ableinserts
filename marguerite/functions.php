@@ -78,6 +78,8 @@ function marguerite_cleanup_head() {
 }
 add_action( 'init', 'marguerite_cleanup_head' );
 
+require MARGUERITE_DIR . '/inc/customizer.php';
+
 /**
  * Fallback de menu quando nenhum menu WP estiver atribuído: usa as âncoras
  * da página única, replicando a navegação definida no Figma.
@@ -94,13 +96,18 @@ function marguerite_primary_menu() {
 		);
 		return;
 	}
+	$itens = array(
+		'sobre'       => get_theme_mod( 'marguerite_nav_sobre', 'Sobre' ),
+		'metodologia' => get_theme_mod( 'marguerite_nav_metodologia', 'Metodologia' ),
+		'executivas'  => get_theme_mod( 'marguerite_nav_executivas', 'Executivas' ),
+		'cases'       => get_theme_mod( 'marguerite_nav_cases', 'Cases' ),
+		'contato'     => get_theme_mod( 'marguerite_nav_contato', 'Contato' ),
+	);
 	?>
 	<ul class="nav-list">
-		<li><a class="nav-link" href="#sobre"><span>Sobre</span><i></i></a></li>
-		<li><a class="nav-link" href="#metodologia"><span>Metodologia</span><i></i></a></li>
-		<li><a class="nav-link" href="#executivas"><span>Executivas</span><i></i></a></li>
-		<li><a class="nav-link" href="#cases"><span>Cases</span><i></i></a></li>
-		<li><a class="nav-link" href="#contato"><span>Contato</span><i></i></a></li>
+		<?php foreach ( $itens as $ancora => $rotulo ) : ?>
+			<li><a class="nav-link" href="#<?php echo esc_attr( $ancora ); ?>"><span><?php echo esc_html( $rotulo ); ?></span><i></i></a></li>
+		<?php endforeach; ?>
 	</ul>
 	<?php
 }

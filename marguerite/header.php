@@ -35,7 +35,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<nav class="site-navigation" id="site-navigation" aria-label="Navegação principal">
 			<?php marguerite_primary_menu(); ?>
-			<a class="btn btn--pill nav-cta" href="#contato">Agende uma Reunião</a>
+			<a class="btn btn--pill nav-cta" href="<?php echo esc_url( get_theme_mod( 'marguerite_nav_cta_link', '#contato' ) ); ?>">
+				<?php echo esc_html( get_theme_mod( 'marguerite_nav_cta_label', 'Agende uma Reunião' ) ); ?>
+			</a>
 		</nav>
 	</div>
 </header>
