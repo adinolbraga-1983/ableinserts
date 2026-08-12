@@ -402,6 +402,7 @@ body {
 .team-card:hover { transform: translateY(-6px); box-shadow: 0 24px 50px -30px rgba(58, 40, 55, 0.3); }
 .team-card__foto { width: 88px; height: 88px; border-radius: 44px; object-fit: cover; }
 .team-card__nome { font-weight: 600; font-size: 24px; letter-spacing: -0.48px; margin-top: 26px; }
+.team-card__nome--sem-foto { margin-top: 0; }
 .team-card__cargo { font-weight: 500; font-size: 13px; letter-spacing: 0.78px; text-transform: uppercase; color: var(--tan); margin-top: 6px; }
 .team-card__texto { font-weight: 300; font-size: 15px; line-height: 1.7; color: var(--muted); margin-top: 22px; }
 

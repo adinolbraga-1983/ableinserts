@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $marguerite_equipe = array(
 	array(
-		'foto'   => 'team-cintia.jpg',
+		'foto'   => '',
 		'nome'   => 'Cíntia Dangebel',
 		'cargo'  => 'fundadora · Direção Estratégica',
 		'texto'  => '34 anos consolidados no mercado corporativo. Marketing de comunicação com grandes entregas: lançamentos de produto, coletivas, feiras, congressos e convenções nacionais e internacionais.',
@@ -30,8 +30,10 @@ $marguerite_equipe = array(
 		<div class="profissionais__grid">
 			<?php foreach ( $marguerite_equipe as $i => $pessoa ) : ?>
 				<article class="team-card" data-reveal data-reveal-delay="<?php echo esc_attr( $i * 0.1 ); ?>">
-					<img class="team-card__foto" src="<?php echo esc_url( MARGUERITE_URI . '/assets/img/' . $pessoa['foto'] ); ?>" alt="<?php echo esc_attr( $pessoa['nome'] ); ?>" width="88" height="88">
-					<h3 class="team-card__nome"><?php echo esc_html( $pessoa['nome'] ); ?></h3>
+					<?php if ( ! empty( $pessoa['foto'] ) ) : ?>
+						<img class="team-card__foto" src="<?php echo esc_url( MARGUERITE_URI . '/assets/img/' . $pessoa['foto'] ); ?>" alt="<?php echo esc_attr( $pessoa['nome'] ); ?>" width="88" height="88">
+					<?php endif; ?>
+					<h3 class="team-card__nome<?php echo empty( $pessoa['foto'] ) ? ' team-card__nome--sem-foto' : ''; ?>"><?php echo esc_html( $pessoa['nome'] ); ?></h3>
 					<p class="team-card__cargo"><?php echo esc_html( $pessoa['cargo'] ); ?></p>
 					<p class="team-card__texto"><?php echo esc_html( $pessoa['texto'] ); ?></p>
 				</article>
