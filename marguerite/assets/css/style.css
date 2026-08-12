@@ -251,10 +251,17 @@ body {
 }
 
 .hero__content {
+	/* Mantém o centralizado padrão de .container (max-width 1240 + padding),
+	   igual ao header — é o que garante o mesmo ponto de partida do logo. */
 	position: relative;
 	z-index: 2;
-	max-width: 780px;
 	padding-block: 60px;
+}
+.hero__text {
+	/* Bloco de texto propriamente dito: largura limitada, mas SEM
+	   margin-inline:auto — começa colado na borda esquerda do container,
+	   à mesma distância do logo no header, em vez de ficar centralizado. */
+	max-width: 780px;
 }
 .hero__title {
 	font-weight: 600;
@@ -330,6 +337,17 @@ body {
 @media (max-width: 900px) {
 	.quem-somos__grid { grid-template-columns: 1fr; gap: 34px; }
 	.quem-somos__tags li { flex: 1 1 45%; margin-bottom: 18px; }
+}
+@media (max-width: 640px) {
+	.quem-somos__tags { flex-direction: column; flex-wrap: nowrap; }
+	.quem-somos__tags li {
+		flex: 1 1 auto;
+		width: 100%;
+		padding-right: 0;
+		margin-bottom: 0;
+		padding-block: 12px;
+	}
+	.quem-somos__tags li:not(:last-child) { border-bottom: 1px solid var(--border); }
 }
 
 /* =========================================================
@@ -425,6 +443,7 @@ body {
 .case-card--tegra { background: linear-gradient(143deg, #d2aa8b 7.7%, #8a5f45 58.4%, #3a2837 92.3%); }
 .case-card--busco { background: linear-gradient(143deg, #b0aec4 7.7%, #8f8daa 54.2%, #4a4560 92.3%); }
 .case-card--sky { background: linear-gradient(143deg, #5a3f52 7.7%, #3a2837 58.4%, #241521 92.3%); }
+.case-card--loft { background: linear-gradient(143deg, #cca387 7.7%, #8a6a8f 54.2%, #3a2837 92.3%); }
 
 .case-card__photo {
 	position: absolute;
@@ -449,6 +468,8 @@ body {
 	padding: 34px;
 	color: var(--white);
 }
+.case-card__top { display: flex; flex-direction: column; gap: 8px; }
+.case-card__top-label { font-weight: 500; font-size: 10.5px; letter-spacing: 2.2px; text-transform: uppercase; opacity: 0.7; }
 .case-card__numero { font-weight: 300; font-size: 46px; letter-spacing: 0.92px; }
 .case-card__eyebrow { font-weight: 300; font-size: 10px; letter-spacing: 2.8px; text-transform: uppercase; color: var(--lime); }
 .case-card__titulo { font-weight: 600; font-size: 30px; letter-spacing: -0.6px; margin-top: 10px; }
@@ -608,3 +629,7 @@ body {
 	html { scroll-behavior: auto; }
 	[data-reveal] { opacity: 1 !important; transform: none !important; }
 }
+
+/* Palavras em cascata nos títulos (hero e h2), montado via JS (main.js) */
+.word-mask { display: inline-block; overflow: hidden; vertical-align: top; line-height: inherit; }
+.word { display: inline-block; will-change: transform, opacity; }

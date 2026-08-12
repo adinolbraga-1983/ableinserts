@@ -13,8 +13,10 @@
 
 	document.addEventListener('DOMContentLoaded', function () {
 		initHeader();
+		initWordReveal();
 		initReveals();
 		initHero();
+		initHeroParallax();
 		initMarquee();
 		initCarousel();
 	});
@@ -41,7 +43,7 @@
 		});
 	}
 
-	/* ---------------- Reveal on scroll ---------------- */
+	/* ---------------- Reveal on scroll (entra e sai nos dois sentidos) ---------------- */
 	function initReveals() {
 		var items = document.querySelectorAll('[data-reveal]');
 		if (!items.length) return;
@@ -53,16 +55,79 @@
 
 		items.forEach(function (el) {
 			var delay = parseFloat(el.getAttribute('data-reveal-delay') || '0');
-			gsap.to(el, {
+			gsap.fromTo(
+				el,
+				{ opacity: 0, y: 34 },
+				{
+					opacity: 1,
+					y: 0,
+					duration: 0.9,
+					delay: delay,
+					ease: 'power3.out',
+					scrollTrigger: {
+						trigger: el,
+						start: 'top 88%',
+						end: 'bottom 12%',
+						// Anima ao entrar rolando pra baixo E ao reentrar rolando pra cima.
+						toggleActions: 'play reverse play reverse',
+					},
+				}
+			);
+		});
+	}
+
+	/* ---------------- Títulos: palavras aparecendo em cascata ---------------- */
+	function splitIntoWords(root) {
+		function walk(node) {
+			Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+				if (child.nodeType === 3) {
+					if (!child.textContent || !child.textContent.trim()) return;
+					var frag = document.createDocumentFragment();
+					var parts = child.textContent.split(/(\s+)/);
+					parts.forEach(function (part) {
+						if (part === '') return;
+						if (/^\s+$/.test(part)) {
+							frag.appendChild(document.createTextNode(part));
+							return;
+						}
+						var mask = document.createElement('span');
+						mask.className = 'word-mask';
+						var word = document.createElement('span');
+						word.className = 'word';
+						word.textContent = part;
+						mask.appendChild(word);
+						frag.appendChild(mask);
+					});
+					node.replaceChild(frag, child);
+				} else if (child.nodeType === 1) {
+					walk(child);
+				}
+			});
+		}
+		walk(root);
+		return root.querySelectorAll('.word');
+	}
+
+	function initWordReveal() {
+		if (!window.gsap || reduceMotion) return;
+		var headings = document.querySelectorAll('.hero__title, .h2');
+
+		headings.forEach(function (heading) {
+			var words = splitIntoWords(heading);
+			if (!words.length) return;
+
+			gsap.set(words, { yPercent: 115, opacity: 0 });
+			gsap.to(words, {
+				yPercent: 0,
 				opacity: 1,
-				y: 0,
-				duration: 0.9,
-				delay: delay,
-				ease: 'power3.out',
+				duration: 0.85,
+				ease: 'power4.out',
+				stagger: 0.032,
 				scrollTrigger: {
-					trigger: el,
-					start: 'top 88%',
-					once: true,
+					trigger: heading,
+					start: 'top 90%',
+					end: 'bottom 20%',
+					toggleActions: 'play reverse play reverse',
 				},
 			});
 		});
@@ -88,6 +153,23 @@
 		if (cue) {
 			gsap.to(cue, { y: 6, duration: 1.1, ease: 'sine.inOut', repeat: -1, yoyo: true });
 		}
+	}
+
+	/* ---------------- Parallax do hero (imagem e blobs em profundidades diferentes) ---------------- */
+	function initHeroParallax() {
+		if (!window.gsap || reduceMotion) return;
+		var hero = document.querySelector('.hero');
+		var heroImg = document.querySelector('.hero__media img');
+		if (!hero || !heroImg) return;
+
+		// Só a imagem recebe o scrub de parallax; os blobs já têm sua própria
+		// animação contínua (initHero) — evita duas tweens disputando o mesmo transform.
+		gsap.to(heroImg, {
+			yPercent: 14,
+			scale: 1.08,
+			ease: 'none',
+			scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.6 },
+		});
 	}
 
 	/* ---------------- Marquee de marcas ---------------- */

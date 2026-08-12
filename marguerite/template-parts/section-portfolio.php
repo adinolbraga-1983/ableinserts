@@ -9,31 +9,44 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $marguerite_cases = array(
 	array(
-		'tone'      => 'tegra',
-		'numero'    => '01',
-		'eyebrow'   => 'Portfólio',
-		'titulo'    => 'Tegra Guest',
-		'descricao' => 'Vivências exclusivas nos pilares gastronômico, esportivo e entretenimento.',
-		'meta'      => array( 'Tegra Incorporadora', '20–30 pessoas', 'SP / RJ', '1 dia/evento' ),
-		'foto'      => 'case-tegraguest.png',
+		'tone'       => 'sky',
+		'top_label'  => 'Consultoria Dangebel',
+		'numero'     => '01',
+		'categoria'  => 'Convenção Comercial 2025',
+		'titulo'     => 'SKY',
+		'descricao'  => 'Equipe comercial, credenciados e acionistas engajados nas novas estratégias e metas anuais, reconhecidos dentro do ecossistema.',
+		'meta'       => array( '980 pessoas', 'Iberostar · Salvador/BA', '3 dias', 'Comercial & Acionistas' ),
+		'foto'       => '',
 	),
 	array(
-		'tone'      => 'busco',
-		'numero'    => '02',
-		'eyebrow'   => 'Portfólio',
-		'titulo'    => 'Busco',
-		'descricao' => 'Lançamento da plataforma que reúne as principais viações de ônibus do Brasil.',
-		'meta'      => array( 'Coletiva de Imprensa', '30 pessoas', 'Pedra Azul / ES', '1 dia' ),
-		'foto'      => '',
+		'tone'       => 'loft',
+		'top_label'  => 'Consultoria Dangebel',
+		'numero'     => '02',
+		'categoria'  => 'Convenção Loft / Portas 2026',
+		'titulo'     => 'Loft',
+		'descricao'  => 'Loft posicionada como motor de crescimento, inovação e tecnologia, em união com os parceiros de negócios do ecossistema.',
+		'meta'       => array( '930 pessoas', 'Community Creators Academy' ),
+		'foto'       => '',
 	),
 	array(
-		'tone'      => 'sky',
-		'numero'    => '03',
-		'eyebrow'   => 'Portfólio',
-		'titulo'    => 'SKY',
-		'descricao' => 'Equipe comercial e parceiros engajados nas novas metas comerciais.',
-		'meta'      => array( 'Convenção Comercial 2025', '980 pessoas', 'Salvador / BA', '3 dias' ),
-		'foto'      => '',
+		'tone'       => 'tegra',
+		'top_label'  => 'Agência',
+		'numero'     => '03',
+		'categoria'  => 'Tegra Incorporadora',
+		'titulo'     => 'Tegra Guest',
+		'descricao'  => 'Quatro experiências curadas: jantar Picchi (Michelin), SP e RJ Open, e o pôr do sol em alto mar no Rio.',
+		'meta'       => array( 'Programa de experiências', 'Prospects, clientes & investidores', 'SP / RJ' ),
+		'foto'       => 'case-tegraguest.png',
+	),
+	array(
+		'tone'       => 'busco',
+		'top_label'  => 'Agência',
+		'numero'     => '04',
+		'categoria'  => 'Coletiva de Imprensa',
+		'titulo'     => 'Busco',
+		'descricao'  => 'Lançamento da plataforma que reúne as principais viações do Brasil — rotas reais, informações claras e compra online segura.',
+		'meta'       => array( '30 pessoas', 'Eco Lodge · Pedra Azul/ES', '1 dia', 'Imprensa & Influenciadores' ),
+		'foto'       => '',
 	),
 );
 
@@ -56,9 +69,12 @@ $marguerite_marcas = array( 'BUSCO', 'LOFT', 'TEGRA', 'SKY®' );
 							<?php endif; ?>
 							<div class="case-card__scrim" aria-hidden="true"></div>
 							<div class="case-card__content">
-								<p class="case-card__numero"><?php echo esc_html( $case['numero'] ); ?></p>
+								<div class="case-card__top">
+									<p class="case-card__top-label"><?php echo esc_html( $case['top_label'] ); ?></p>
+									<p class="case-card__numero"><?php echo esc_html( $case['numero'] ); ?></p>
+								</div>
 								<div class="case-card__bottom">
-									<p class="case-card__eyebrow"><?php echo esc_html( $case['eyebrow'] ); ?></p>
+									<p class="case-card__eyebrow"><?php echo esc_html( $case['categoria'] ); ?></p>
 									<h3 class="case-card__titulo"><?php echo esc_html( $case['titulo'] ); ?></h3>
 									<p class="case-card__descricao"><?php echo esc_html( $case['descricao'] ); ?></p>
 									<ul class="case-card__meta">
