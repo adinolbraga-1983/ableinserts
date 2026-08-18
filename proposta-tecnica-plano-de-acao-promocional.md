@@ -93,6 +93,53 @@ WhatsApp/Meu SUS Digital.
 > das entregas já previstas no cronograma da equipe — KV (key visual), 3D e estudo de implantação
 > — para serem anexados como exemplos visuais na Via Não Identificada da proposta.
 
+#### Detalhamento da ativação (Live Marketing)
+
+**Nome da Ativação / Conceito-Chave**
+"O Banco da Vida" — mecânica central do conceito "Tem SUS em Você".
+
+**Mecânica da Experiência (minuto a minuto)**
+
+| Tempo | O que acontece |
+|---|---|
+| 0'00" | Abordagem: a caixa monumental espelhada reflete a cidade e o próprio público, gerando estranhamento e curiosidade à distância |
+| 0'30" | Entrada individual no "Banco da Vida"; totem solicita idade e autorização de consulta ao histórico via Meu SUS Digital |
+| 0'45"–1'05" | Tela interna processa e exibe, em sequência visual, os marcos de vida identificados (vacina, água tratada, remédio, atendimento de urgência, cirurgia) — construção de suspense |
+| 1'05"–1'20" | Revelação: telão exibe o valor total investido pelo SUS na vida daquela pessoa |
+| 1'20"–1'35" | Impressão do bilhete físico "Extrato da Vida" (formato de comprovante/nota bancária): "SUA CONTA: R$ X. VALOR COBRADO: R$ 0,00. PAGO PELO BRASIL." |
+| 1'35"–2'00" | Ponto de compartilhamento: moldura/vitrine de saída pensada para a pessoa segurar o bilhete e fotografar |
+| 2'00" | Saída com QR code para gerar a versão digital do extrato e compartilhar nas redes |
+
+**Camada de Shareability**
+O próprio bilhete impresso é a peça de mídia: no formato reconhecível de "comprovante bancário",
+com um valor alto e um "R$ 0,00" chocante lado a lado, é uma imagem que se explica sozinha —
+altamente fotografável, replicável por criadores de conteúdo e naturalmente noticiável por
+telejornais, sem necessidade de legenda ou contexto adicional.
+
+**Integração Tecnológica / Phygital**
+- Consulta ao histórico via **Meu SUS Digital** (autenticação e dado já pertencente ao cidadão).
+- Geração remota do Extrato da Vida via **WhatsApp do Ministério da Saúde**, estendendo o alcance
+  a todo o país sem depender das 5 praças físicas.
+- QR code de saída para versão digital compartilhável do bilhete.
+- Possibilidade de reforço em realidade aumentada no totem, revelando "camadas" da vida do
+  cidadão de forma visual antes da tela de revelação.
+
+**Plano de Risco / Operação Básica**
+- **Dados sensíveis de saúde (LGPD):** consulta feita exclusivamente pela integração oficial do
+  Meu SUS Digital, com consentimento explícito no totem e sem retenção do dado bruto após a
+  impressão do bilhete — ver detalhamento no item 1.5.
+- **Licenciamento local:** ART da estrutura e alvarás específicos por praça (item 1.5 "Viabilização
+  Legal da Ação" do Apêndice I do TR), variando conforme a prefeitura/administração de cada uma
+  das 5 cidades.
+- **Segurança:** brigada de incêndio e extintores dimensionados ao fluxo esperado em cada praça;
+  atenção especial à Av. Paulista e à Esplanada dos Ministérios pelo volume de público.
+- **Acessibilidade:** rampa de acesso, intérprete de Libras presencial e fila prioritária.
+- **Clima:** climatização de alta capacidade nas praças de Fortaleza e Belém; resistência a chuva
+  e vento reforçada em Curitiba.
+- **Fluxo e filas:** tempo de ciclo por pessoa estimado em ~2 minutos (ver mecânica acima); ponto
+  de maior gargalo é a impressão do bilhete — recomenda-se redundância de impressora térmica por
+  estrutura para evitar fila em horário de pico.
+
 ### 1.4 Exequibilidade e Plano de Implementação
 
 **Cronograma de produção da proposta (Setembro–Outubro):**
