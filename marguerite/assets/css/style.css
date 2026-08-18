@@ -489,6 +489,119 @@ body {
 }
 .case-card__meta li:not(:last-child)::after { content: '\00B7'; margin: 0 8px; opacity: 0.5; }
 
+/* ---------- Cases: capa + links do Instagram, em carrossel horizontal ---------- */
+.case-carousel { position: relative; margin-top: 70px; }
+.case-list {
+	display: flex;
+	gap: 28px;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
+	padding-bottom: 6px;
+	margin: 0 -40px;
+	padding-inline: 40px;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+.case-list::-webkit-scrollbar { display: none; }
+.case-block {
+	flex: 0 0 auto;
+	width: min(760px, 86vw);
+	scroll-snap-align: start;
+	display: flex;
+	flex-direction: column;
+}
+.case-block[hidden] { display: none; }
+
+@media (max-width: 640px) {
+	.case-list { margin: 0 -22px; padding-inline: 22px; }
+	.case-block { width: 90vw; }
+}
+
+.case-cover {
+	position: relative;
+	overflow: hidden;
+	border-radius: 24px;
+	box-shadow: 0 30px 80px -30px rgba(58, 40, 55, 0.45);
+	padding: 48px;
+	color: var(--white);
+	/* Todos os cards de capa com a mesma altura, independente do tamanho do texto. */
+	min-height: 346px;
+	display: flex;
+	align-items: center;
+}
+.case-cover--tegra { background: linear-gradient(143deg, #d2aa8b 7.7%, #8a5f45 58.4%, #3a2837 92.3%); }
+.case-cover--busco { background: linear-gradient(143deg, #b0aec4 7.7%, #8f8daa 54.2%, #4a4560 92.3%); }
+.case-cover--sky { background: linear-gradient(143deg, #5a3f52 7.7%, #3a2837 58.4%, #241521 92.3%); }
+.case-cover--loft { background: linear-gradient(143deg, #cca387 7.7%, #8a6a8f 54.2%, #3a2837 92.3%); }
+
+.case-cover__photo {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0.14;
+	mix-blend-mode: soft-light;
+}
+.case-cover__inner { position: relative; z-index: 1; max-width: 640px; width: 100%; }
+.case-cover__top-label { font-weight: 500; font-size: 10.5px; letter-spacing: 2.2px; text-transform: uppercase; opacity: 0.75; }
+.case-cover__marca { font-weight: 600; font-size: clamp(1.7rem, 1.1rem + 2vw, 2.6rem); letter-spacing: -0.4px; margin-top: 12px; }
+.case-cover__texto { font-weight: 300; font-size: 15px; line-height: 1.75; opacity: 0.92; margin-top: 16px; max-width: 540px; }
+.case-cover__meta {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 24px;
+	padding-top: 18px;
+	border-top: 1px solid rgba(255, 255, 255, 0.28);
+	font-weight: 300;
+	font-size: 12.5px;
+	letter-spacing: 0.24px;
+	color: var(--lime);
+}
+.case-cover__meta li:not(:last-child)::after { content: '\00B7'; margin: 0 10px; opacity: 0.6; color: rgba(255, 255, 255, 0.5); }
+.case-cover__badge {
+	position: absolute;
+	top: 26px;
+	right: 26px;
+	z-index: 1;
+	padding: 7px 16px;
+	border: 1px solid rgba(255, 255, 255, 0.4);
+	border-radius: 100px;
+	font-size: 11px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+.case-links {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 14px;
+	margin-top: 22px;
+}
+.case-link {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 16px 18px;
+	background: var(--bg);
+	border: 1px solid var(--border);
+	border-radius: 14px;
+	transition: transform 0.3s var(--ease), background-color 0.3s ease, border-color 0.3s ease;
+}
+.case-link:hover { transform: translateY(-3px); background: var(--white); border-color: var(--tan-light); }
+.case-link__num { font-weight: 600; font-size: 12px; color: var(--tan); flex-shrink: 0; }
+.case-link__text { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.case-link__label { font-weight: 600; font-size: 14.5px; color: var(--ink); }
+.case-link__cat { font-weight: 300; font-size: 12px; color: var(--muted); }
+.case-link__icon { flex-shrink: 0; width: 20px; height: 20px; color: var(--ink); }
+
+@media (max-width: 640px) {
+	.case-cover { padding: 32px 24px; }
+	.case-cover__badge { position: static; display: inline-flex; margin-bottom: 16px; }
+}
+
 .portfolio-controls {
 	display: flex;
 	align-items: center;
@@ -634,3 +747,51 @@ body {
 /* Palavras em cascata nos títulos (hero e h2), montado via JS (main.js) */
 .word-mask { display: inline-block; overflow: hidden; vertical-align: top; line-height: inherit; }
 .word { display: inline-block; will-change: transform, opacity; }
+
+/* =========================================================
+   Compatibilidade com o Elementor
+   O Elementor aplica `.elementor img { border-radius: 0; height: auto }`
+   a todas as imagens do conteúdo. Como essa regra tem especificidade maior
+   que as classes simples usadas acima, aqui os tamanhos e formatos originais
+   são reafirmados com especificidade suficiente para prevalecer.
+   ========================================================= */
+.elementor .hero__media img {
+	position: absolute;
+	top: 0;
+	left: -1.41%;
+	width: 122.69%;
+	max-width: none;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+.elementor img.team-card__foto {
+	width: 88px;
+	height: 88px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+.elementor img.case-cover__photo {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0.14;
+	mix-blend-mode: soft-light;
+}
+.elementor .carousel-btn img {
+	width: 20px;
+	height: 20px;
+}
+.elementor .btn img {
+	width: 20px;
+	height: 20px;
+}
+
+/* O Elementor envolve cada widget em .elementor-widget-container; garantimos
+   que esses invólucros não criem espaçamentos ou limites de largura extras. */
+.elementor .elementor-widget-container > section,
+.elementor .elementor-widget-container > .container {
+	margin: 0;
+}

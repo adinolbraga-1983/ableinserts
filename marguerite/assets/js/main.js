@@ -11,15 +11,53 @@
 		gsap.registerPlugin(ScrollTrigger);
 	}
 
-	document.addEventListener('DOMContentLoaded', function () {
+	/**
+	 * Marca um elemento como já inicializado e devolve `false` se ele já tiver
+	 * sido tratado antes. É o que permite rodar o boot() várias vezes (necessário
+	 * dentro do editor do Elementor, que recria os widgets a cada alteração)
+	 * sem duplicar animações, listeners ou bolinhas do carrossel.
+	 */
+	function once(el, chave) {
+		if (!el) return false;
+		var attr = 'mgInit' + chave;
+		if (el.dataset[attr]) return false;
+		el.dataset[attr] = '1';
+		return true;
+	}
+
+	/**
+	 * Liga tudo. Pode ser chamado quantas vezes for preciso.
+	 */
+	function boot() {
 		initHeader();
 		initWordReveal();
 		initReveals();
 		initHero();
 		initHeroParallax();
 		initMarquee();
-		initCarousel();
+		initCasesCarousel();
+	}
+
+	document.addEventListener('DOMContentLoaded', boot);
+
+	// No editor do Elementor cada widget é re-renderizado ao ser editado; o hook
+	// oficial abaixo garante que as interações voltem a funcionar na hora.
+	window.jQuery && jQuery(window).on('elementor/frontend/init', function () {
+		if (!window.elementorFrontend || !elementorFrontend.hooks) return;
+		[
+			'marguerite-hero',
+			'marguerite-quem-somos',
+			'marguerite-metodologia',
+			'marguerite-executivas',
+			'marguerite-cases',
+			'marguerite-marcas',
+			'marguerite-cta'
+		].forEach(function (widget) {
+			elementorFrontend.hooks.addAction('frontend/element_ready/' + widget + '.default', boot);
+		});
 	});
+
+	window.MargueriteUI = { boot: boot };
 
 	/* ---------------- Header ---------------- */
 	function initHeader() {
@@ -27,6 +65,7 @@
 		var toggle = document.querySelector('.nav-toggle');
 		var nav = document.querySelector('.site-navigation');
 		if (!header || !toggle || !nav) return;
+		if (!once(header, 'Header')) return;
 
 		toggle.addEventListener('click', function () {
 			var isOpen = header.classList.toggle('is-open');
@@ -54,6 +93,7 @@
 		}
 
 		items.forEach(function (el) {
+			if (!once(el, 'Reveal')) return;
 			var delay = parseFloat(el.getAttribute('data-reveal-delay') || '0');
 			gsap.fromTo(
 				el,
@@ -113,6 +153,7 @@
 		var headings = document.querySelectorAll('.hero__title, .h2');
 
 		headings.forEach(function (heading) {
+			if (!once(heading, 'Words')) return;
 			var words = splitIntoWords(heading);
 			if (!words.length) return;
 
@@ -139,6 +180,7 @@
 
 		var blobs = document.querySelectorAll('.hero__blob');
 		blobs.forEach(function (blob, i) {
+			if (!once(blob, 'Blob')) return;
 			gsap.to(blob, {
 				y: i % 2 === 0 ? 22 : -22,
 				x: i % 2 === 0 ? -14 : 14,
@@ -150,7 +192,7 @@
 		});
 
 		var cue = document.querySelector('.hero__scroll-cue');
-		if (cue) {
+		if (cue && once(cue, 'Cue')) {
 			gsap.to(cue, { y: 6, duration: 1.1, ease: 'sine.inOut', repeat: -1, yoyo: true });
 		}
 	}
@@ -161,6 +203,7 @@
 		var hero = document.querySelector('.hero');
 		var heroImg = document.querySelector('.hero__media img');
 		if (!hero || !heroImg) return;
+		if (!once(heroImg, 'Parallax')) return;
 
 		// Só a imagem recebe o scrub de parallax; os blobs já têm sua própria
 		// animação contínua (initHero) — evita duas tweens disputando o mesmo transform.
@@ -177,6 +220,7 @@
 		var track = document.querySelector('[data-marquee-track]');
 		var wrap = document.querySelector('[data-marquee]');
 		if (!track || !wrap) return;
+		if (!once(track, 'Marquee')) return;
 
 		if (!window.gsap || reduceMotion) return;
 
@@ -202,134 +246,81 @@
 		wrap.addEventListener('mouseleave', function () { if (tween) tween.resume(); });
 	}
 
-	/* ---------------- Carrossel de cases ---------------- */
-	function initCarousel() {
-		var root = document.querySelector('[data-carousel]');
-		if (!root) return;
+	/* ---------------- Carrossel horizontal dos cases ---------------- */
+	function initCasesCarousel() {
 
-		var wrap = root.querySelector('.portfolio-track-wrap');
-		var track = root.querySelector('[data-track]');
-		var cards = Array.prototype.slice.call(track.querySelectorAll('.case-card'));
-		var dots = Array.prototype.slice.call(root.querySelectorAll('[data-carousel-goto]'));
-		var prevBtn = root.querySelector('[data-carousel-prev]');
-		var nextBtn = root.querySelector('[data-carousel-next]');
-		var total = cards.length;
-		if (!total) return;
+			var carousel = document.querySelector('[data-cases-carousel]');
+			var track = document.querySelector('[data-cases-track]');
+			if (!carousel || !track) return;
+			if (!once(carousel, 'Cases')) return;
 
-		var DESIGN_WIDTH = 1160;
-		var DESIGN_HEIGHT = 600;
-
-		// Geometria (px, espaço de desenho do Figma) por posição relativa ao card ativo.
-		var SLOTS = [
-			{ left: 380, top: 40, width: 400, height: 520, opacity: 1, zIndex: 3 },
-			{ left: 786.3, top: 71.2, width: 352, height: 457.6, opacity: 0.58, zIndex: 2 },
-			{ left: 1113.7, top: 102.4, width: 304, height: 395.2, opacity: 0.16, zIndex: 1 },
-		];
-		var HIDDEN_SLOT = { left: 1420, top: 130, width: 260, height: 340, opacity: 0, zIndex: 0 };
-
-		var activeIndex = 0;
-		var isMobile = window.matchMedia('(max-width: 900px)').matches;
-		var autoplayTimer;
-
-		function scaleFactor() {
-			return wrap.clientWidth / DESIGN_WIDTH;
-		}
-
-		function layoutDesktop(animate) {
-			var scale = scaleFactor();
-			track.style.transform = 'scale(' + scale + ')';
-			wrap.style.height = (DESIGN_HEIGHT * scale) + 'px';
-
-			cards.forEach(function (card, i) {
-				var relative = (i - activeIndex + total) % total;
-				var slot = SLOTS[relative] || HIDDEN_SLOT;
-				var props = {
-					left: slot.left,
-					top: slot.top,
-					width: slot.width,
-					height: slot.height,
-					opacity: slot.opacity,
-				};
-
-				card.setAttribute('aria-hidden', relative === 0 ? 'false' : 'true');
-				// z-index não é interpolável de forma útil: aplica-se de imediato.
-				card.style.zIndex = slot.zIndex;
-
-				if (window.gsap && animate && !reduceMotion) {
-					gsap.to(card, Object.assign({ duration: 0.7, ease: 'power3.inOut' }, props));
-				} else if (window.gsap) {
-					gsap.set(card, props);
-				} else {
-					Object.keys(props).forEach(function (key) {
-						card.style[key] = key !== 'opacity' ? props[key] + 'px' : props[key];
-					});
-				}
+			var slides = Array.prototype.filter.call(track.children, function (el) {
+				return el.classList.contains('case-block') && !el.hasAttribute('hidden');
 			});
-		}
+			if (slides.length < 2) return; // nada para navegar
 
-		function layoutMobile(animate) {
-			track.style.transform = 'none';
-			wrap.style.height = 'auto';
-			cards.forEach(function (card, i) {
-				var active = i === activeIndex;
-				card.classList.toggle('is-mobile-active', active);
-				card.setAttribute('aria-hidden', active ? 'false' : 'true');
-				if (window.gsap && active && animate && !reduceMotion) {
-					gsap.fromTo(card, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' });
-				}
+			var prevBtn = carousel.querySelector('[data-cases-prev]');
+			var nextBtn = carousel.querySelector('[data-cases-next]');
+			var dotsWrap = carousel.querySelector('[data-cases-dots]');
+			var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+			var dots = slides.map(function (_, i) {
+				var dot = document.createElement('button');
+				dot.type = 'button';
+				dot.className = 'portfolio-dot' + (i === 0 ? ' is-active' : '');
+				dot.setAttribute('role', 'tab');
+				dot.setAttribute('aria-label', 'Ir para o case ' + (i + 1));
+				dot.addEventListener('click', function () { goTo(i); });
+				dotsWrap.appendChild(dot);
+				return dot;
 			});
-		}
 
-		function render(animate) {
-			if (isMobile) {
-				layoutMobile(animate);
-			} else {
-				layoutDesktop(animate);
+			function slideLeft(el) {
+				return el.getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft;
 			}
-			dots.forEach(function (dot, i) {
-				dot.classList.toggle('is-active', i === activeIndex);
+
+			function goTo(index) {
+				index = Math.max(0, Math.min(slides.length - 1, index));
+				track.scrollTo({ left: slideLeft(slides[index]), behavior: reduceMotion ? 'auto' : 'smooth' });
+			}
+
+			function currentIndex() {
+				var center = track.scrollLeft + track.clientWidth / 2;
+				var closest = 0;
+				var closestDist = Infinity;
+				slides.forEach(function (el, i) {
+					var mid = slideLeft(el) + el.offsetWidth / 2;
+					var dist = Math.abs(mid - center);
+					if (dist < closestDist) { closestDist = dist; closest = i; }
+				});
+				return closest;
+			}
+
+			function updateDots() {
+				var idx = currentIndex();
+				dots.forEach(function (dot, i) { dot.classList.toggle('is-active', i === idx); });
+			}
+
+			if (prevBtn) prevBtn.addEventListener('click', function () { goTo(currentIndex() - 1); });
+			if (nextBtn) nextBtn.addEventListener('click', function () { goTo(currentIndex() + 1); });
+
+			carousel.setAttribute('tabindex', '0');
+			carousel.addEventListener('keydown', function (e) {
+				if (e.key === 'ArrowRight') { e.preventDefault(); goTo(currentIndex() + 1); }
+				if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(currentIndex() - 1); }
 			});
-		}
 
-		function goTo(index, animate) {
-			activeIndex = ((index % total) + total) % total;
-			render(animate !== false);
-			resetAutoplay();
-		}
+			var scrollTimer;
+			track.addEventListener('scroll', function () {
+				clearTimeout(scrollTimer);
+				scrollTimer = setTimeout(updateDots, 100);
+			}, { passive: true });
 
-		function next() { goTo(activeIndex + 1); }
-		function prev() { goTo(activeIndex - 1); }
-
-		if (prevBtn) prevBtn.addEventListener('click', prev);
-		if (nextBtn) nextBtn.addEventListener('click', next);
-		dots.forEach(function (dot) {
-			dot.addEventListener('click', function () {
-				goTo(parseInt(dot.getAttribute('data-carousel-goto'), 10));
+			window.addEventListener('resize', function () {
+				clearTimeout(scrollTimer);
+				scrollTimer = setTimeout(updateDots, 150);
 			});
-		});
 
-		root.addEventListener('keydown', function (e) {
-			if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
-			if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
-		});
-
-		function resetAutoplay() {
-			if (reduceMotion) return;
-			clearInterval(autoplayTimer);
-			autoplayTimer = setInterval(next, 6500);
-		}
-		root.addEventListener('mouseenter', function () { clearInterval(autoplayTimer); });
-		root.addEventListener('mouseleave', resetAutoplay);
-		root.addEventListener('focusin', function () { clearInterval(autoplayTimer); });
-		root.addEventListener('focusout', resetAutoplay);
-
-		window.addEventListener('resize', debounce(function () {
-			isMobile = window.matchMedia('(max-width: 900px)').matches;
-			render(false);
-		}, 200));
-
-		render(false);
-		resetAutoplay();
 	}
 
 	/* ---------------- Utils ---------------- */
@@ -342,3 +333,4 @@
 		};
 	}
 })();
+

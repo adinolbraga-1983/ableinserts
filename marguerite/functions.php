@@ -1,13 +1,17 @@
 <?php
 /**
  * Marguerite Experience — funções do tema.
+ *
+ * As seções da página são widgets do Elementor (registrados em inc/elementor/),
+ * o que funciona no Elementor GRATUITO. O cabeçalho e o rodapé vêm do tema e são
+ * editáveis em Aparência → Personalizar, cobrindo o que o Theme Builder (Pro) faria.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MARGUERITE_VERSION', '1.0.0' );
+define( 'MARGUERITE_VERSION', '2.0.0' );
 define( 'MARGUERITE_DIR', get_template_directory() );
 define( 'MARGUERITE_URI', get_template_directory_uri() );
 
@@ -20,6 +24,7 @@ function marguerite_setup() {
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' ) );
 	add_theme_support( 'custom-logo' );
 	add_theme_support( 'automatic-feed-links' );
+	add_theme_support( 'align-wide' );
 
 	register_nav_menus(
 		array(
@@ -30,15 +35,30 @@ function marguerite_setup() {
 add_action( 'after_setup_theme', 'marguerite_setup' );
 
 /**
- * Estilos e scripts.
+ * O conteúdo desta página foi construído com o Elementor?
+ */
+function marguerite_is_built_with_elementor( $post_id ) {
+	if ( ! $post_id || ! did_action( 'elementor/loaded' ) ) {
+		return false;
+	}
+	if ( ! class_exists( '\Elementor\Plugin' ) || ! isset( \Elementor\Plugin::$instance->documents ) ) {
+		return false;
+	}
+	$document = \Elementor\Plugin::$instance->documents->get( $post_id );
+	return $document && $document->is_built_with_elementor();
+}
+
+/**
+ * Estilos e scripts do site.
  */
 function marguerite_assets() {
-	// Google Fonts — Poppins (pesos usados no design).
+	// Poppins servida pelo próprio site (sem depender do Google Fonts):
+	// carrega mais rápido e não vaza IP dos visitantes para terceiros.
 	wp_enqueue_style(
 		'marguerite-fonts',
-		'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap',
+		MARGUERITE_URI . '/assets/css/fonts.css',
 		array(),
-		null
+		MARGUERITE_VERSION
 	);
 
 	wp_enqueue_style(
@@ -48,9 +68,11 @@ function marguerite_assets() {
 		MARGUERITE_VERSION
 	);
 
-	// GSAP via CDN, conforme solicitado (https://gsap.com/).
-	wp_enqueue_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', array(), '3.12.5', true );
-	wp_enqueue_script( 'gsap-scrolltrigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js', array( 'gsap' ), '3.12.5', true );
+	// GSAP + ScrollTrigger (animações de entrada, parallax, marquee).
+	// Ficam dentro do tema de propósito: se um CDN externo falhar, o site perde
+	// as animações — assim ele não depende de nada fora do servidor.
+	wp_enqueue_script( 'gsap', MARGUERITE_URI . '/assets/js/gsap.min.js', array(), '3.12.5', true );
+	wp_enqueue_script( 'gsap-scrolltrigger', MARGUERITE_URI . '/assets/js/ScrollTrigger.min.js', array( 'gsap' ), '3.12.5', true );
 
 	wp_enqueue_script(
 		'marguerite-main',
@@ -59,30 +81,39 @@ function marguerite_assets() {
 		MARGUERITE_VERSION,
 		true
 	);
-
-	wp_localize_script(
-		'marguerite-main',
-		'margueriteData',
-		array(
-			'reducedMotion' => false,
-		)
-	);
 }
 add_action( 'wp_enqueue_scripts', 'marguerite_assets' );
 
 /**
- * Remove elementos desnecessários do <head>.
+ * O kit padrão do Elementor baixa Roboto e Roboto Slab do Google Fonts — fontes
+ * que este layout não usa. Desligamos para não gastar duas requisições externas
+ * (a tipografia do site é a Poppins, servida pelo próprio servidor).
+ */
+add_filter( 'elementor/frontend/print_google_fonts', '__return_false' );
+
+/**
+ * Dentro do editor do Elementor, as animações de entrada escondem o conteúdo
+ * (opacity: 0) e atrapalham a edição. Neutralizamos só no editor/preview.
+ */
+function marguerite_editor_reveal_fix() {
+	echo '<style>[data-reveal]{opacity:1 !important;transform:none !important}</style>';
+}
+add_action( 'elementor/editor/wp_head', 'marguerite_editor_reveal_fix' );
+add_action( 'elementor/preview/enqueue_styles', function () {
+	wp_add_inline_style( 'marguerite-style', '[data-reveal]{opacity:1 !important;transform:none !important}' );
+} );
+
+/**
+ * Remove itens desnecessários do <head>.
  */
 function marguerite_cleanup_head() {
 	remove_action( 'wp_head', 'wp_generator' );
 }
 add_action( 'init', 'marguerite_cleanup_head' );
 
-require MARGUERITE_DIR . '/inc/customizer.php';
-
 /**
- * Fallback de menu quando nenhum menu WP estiver atribuído: usa as âncoras
- * da página única, replicando a navegação definida no Figma.
+ * Menu principal: usa o menu do WordPress quando houver um atribuído;
+ * caso contrário, cai nas âncoras da página única.
  */
 function marguerite_primary_menu() {
 	if ( has_nav_menu( 'primary' ) ) {
@@ -96,6 +127,7 @@ function marguerite_primary_menu() {
 		);
 		return;
 	}
+
 	$itens = array(
 		'sobre'       => get_theme_mod( 'marguerite_nav_sobre', 'Sobre' ),
 		'metodologia' => get_theme_mod( 'marguerite_nav_metodologia', 'Metodologia' ),
@@ -106,8 +138,13 @@ function marguerite_primary_menu() {
 	?>
 	<ul class="nav-list">
 		<?php foreach ( $itens as $ancora => $rotulo ) : ?>
-			<li><a class="nav-link" href="#<?php echo esc_attr( $ancora ); ?>"><span><?php echo esc_html( $rotulo ); ?></span><i></i></a></li>
+			<?php if ( '' === trim( (string) $rotulo ) ) { continue; } ?>
+			<li><a href="#<?php echo esc_attr( $ancora ); ?>"><?php echo esc_html( $rotulo ); ?></a></li>
 		<?php endforeach; ?>
 	</ul>
 	<?php
 }
+
+require MARGUERITE_DIR . '/inc/customizer.php';
+require MARGUERITE_DIR . '/inc/elementor/loader.php';
+require MARGUERITE_DIR . '/inc/importer.php';

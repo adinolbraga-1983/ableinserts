@@ -1,7 +1,6 @@
 <?php
 /**
- * Template padrão (fallback). A página inicial usa front-page.php;
- * este arquivo cobre demais contextos exigidos pela hierarquia do WordPress.
+ * Fallback exigido pela hierarquia de templates do WordPress.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,8 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header();
 ?>
-
-<main id="conteudo" class="site-main site-main--simple">
+<main id="conteudo" class="site-main">
 	<div class="container section">
 		<?php if ( have_posts() ) : ?>
 			<?php while ( have_posts() ) : the_post(); ?>
@@ -24,6 +22,6 @@ get_header();
 			<p><?php esc_html_e( 'Nada encontrado.', 'marguerite' ); ?></p>
 		<?php endif; ?>
 	</div>
-
+</main>
 <?php
 get_footer();

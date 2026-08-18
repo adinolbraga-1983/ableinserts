@@ -1,6 +1,6 @@
 <?php
 /**
- * Cabeçalho do tema.
+ * Cabeçalho do site (editável em Aparência → Personalizar → Cabeçalho e Menu).
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,10 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 <header class="site-header" id="topo">
 	<div class="site-header__inner container">
 		<a class="site-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="Marguerite — início">
-			<img class="site-logo__emblem" src="<?php echo esc_url( MARGUERITE_URI . '/assets/img/header-emblem.svg' ); ?>" alt="" width="79" height="79">
+			<img class="site-logo__emblem" src="<?php echo esc_url( get_theme_mod( 'marguerite_logo_emblema', MARGUERITE_URI . '/assets/img/header-emblem.svg' ) ); ?>" alt="" width="79" height="79">
 			<span class="site-logo__type">
-				<img class="site-logo__wordmark" src="<?php echo esc_url( MARGUERITE_URI . '/assets/img/header-wordmark.svg' ); ?>" alt="Marguerite" width="251" height="33">
-				<img class="site-logo__tagline" src="<?php echo esc_url( MARGUERITE_URI . '/assets/img/header-tagline.svg' ); ?>" alt="Agência de Experiência" width="119" height="8">
+				<img class="site-logo__wordmark" src="<?php echo esc_url( get_theme_mod( 'marguerite_logo_marca', MARGUERITE_URI . '/assets/img/header-wordmark.svg' ) ); ?>" alt="<?php bloginfo( 'name' ); ?>" width="251" height="33">
+				<img class="site-logo__tagline" src="<?php echo esc_url( get_theme_mod( 'marguerite_logo_assinatura', MARGUERITE_URI . '/assets/img/header-tagline.svg' ) ); ?>" alt="Agência de Experiência" width="119" height="8">
 			</span>
 		</a>
 
@@ -35,9 +35,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<nav class="site-navigation" id="site-navigation" aria-label="Navegação principal">
 			<?php marguerite_primary_menu(); ?>
-			<a class="btn btn--pill nav-cta" href="<?php echo esc_url( get_theme_mod( 'marguerite_nav_cta_link', '#contato' ) ); ?>">
-				<?php echo esc_html( get_theme_mod( 'marguerite_nav_cta_label', 'Agende uma Reunião' ) ); ?>
-			</a>
+			<?php $marguerite_cta_label = get_theme_mod( 'marguerite_nav_cta_label', 'Agende uma Reunião' ); ?>
+			<?php if ( '' !== trim( (string) $marguerite_cta_label ) ) : ?>
+				<a class="btn btn--pill nav-cta" href="<?php echo esc_url( get_theme_mod( 'marguerite_nav_cta_link', '#contato' ) ); ?>">
+					<?php echo esc_html( $marguerite_cta_label ); ?>
+				</a>
+			<?php endif; ?>
 		</nav>
 	</div>
 </header>
