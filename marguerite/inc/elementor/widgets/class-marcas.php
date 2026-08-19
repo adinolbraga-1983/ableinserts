@@ -46,7 +46,6 @@ class Marguerite_Widget_Marcas extends Marguerite_Widget_Base {
 					array( 'nome' => 'TEGRA.GUEST' ),
 					array( 'nome' => 'BusCo' ),
 					array( 'nome' => 'Loft' ),
-					array( 'nome' => 'SKY' ),
 				),
 			)
 		);

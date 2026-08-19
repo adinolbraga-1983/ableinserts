@@ -76,7 +76,7 @@ class Marguerite_Widget_Executivas extends Marguerite_Widget_Base {
 						'foto'         => array( 'url' => MARGUERITE_URI . '/assets/img/team-marcia.jpg' ),
 						'nome'         => 'Márcia Fernandes',
 						'cargo'        => 'Relacionamento e Operações · Parceria',
-						'bio'          => '25 anos de mercado, especializada em liderança de atendimento e desenvolvimento de negócios. Relacionamento estratégico com clientes e gestão de operações complexas sem margem para erro.',
+						'bio'          => '28 anos de mercado, especializada em liderança de atendimento e desenvolvimento de negócios. Relacionamento estratégico com clientes e gestão de operações complexas sem margem para erro.',
 					),
 				),
 			)

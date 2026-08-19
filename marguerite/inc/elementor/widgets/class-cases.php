@@ -115,14 +115,6 @@ class Marguerite_Widget_Cases extends Marguerite_Widget_Base {
 						'links'     => "Convenção Loft | Portas 2026 | https://www.instagram.com/reel/DXPCKKFjhOI/?igsi=MTk2cHc5aW5sNjRpag==",
 						'tom'       => 'loft',
 					),
-					array(
-						'top_label' => 'Consultoria Dangebel',
-						'marca'     => 'SKY',
-						'texto'     => 'Convenção Comercial 2025: equipe comercial, credenciados e acionistas engajados nas novas estratégias e metas anuais, reconhecidos dentro do ecossistema.',
-						'meta'      => "980 pessoas\nIberostar · Salvador/BA\n3 dias\nComercial & Acionistas",
-						'links'     => '',
-						'tom'       => 'sky',
-					),
 				),
 			)
 		);

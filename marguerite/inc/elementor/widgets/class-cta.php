@@ -50,7 +50,7 @@ class Marguerite_Widget_Cta extends Marguerite_Widget_Base {
 			array(
 				'label'       => 'Botão — link',
 				'type'        => \Elementor\Controls_Manager::URL,
-				'default'     => array( 'url' => 'https://wa.me/5500000000000', 'is_external' => true ),
+				'default'     => array( 'url' => 'https://wa.me/5511988506101?text=Ol%C3%A1%2C%20cliquei%20no%20link%20do%20site%20e%20gostaria%20de%20agendar%20um%20reuni%C3%A3o%20com%20voc%C3%AA.', 'is_external' => true ),
 				'description' => 'Formato do WhatsApp: https://wa.me/55DDDNUMERO (só números).',
 			)
 		);
