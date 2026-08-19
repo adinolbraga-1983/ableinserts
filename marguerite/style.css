@@ -1,0 +1,14 @@
+/*
+Theme Name: Marguerite Experience
+Theme URI: https://margueriteexperience.com.br
+Author: Agência Marguerite
+Description: Tema da Marguerite — Agência de Experiência. Todas as seções da página são widgets do Elementor (funciona no Elementor gratuito), e o cabeçalho/rodapé são editáveis em Aparência → Personalizar. Animações com GSAP.
+Version: 2.0.0
+Requires at least: 6.0
+Tested up to: 6.7
+Requires PHP: 7.4
+License: GPLv2 or later
+Text Domain: marguerite
+*/
+
+/* Os estilos ficam em assets/css/style.css (carregado via functions.php). */
